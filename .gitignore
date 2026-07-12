@@ -1,0 +1,8 @@
+# Symlinks do zewnętrznych plików (ważne tylko lokalnie)
+10xdevs-modules/
+
+# OS / edytory
+.DS_Store
+*.swp
+
+START-KONTEKST.md
