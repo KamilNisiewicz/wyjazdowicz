@@ -32,7 +32,7 @@ jobs:
         with:
           switches: -avz --delete
           path: public/build/
-          remote_path: ~/domains/wyjazdowicz.cfolks.pl/repo/public/build/
+          remote_path: ~/domains/wyjazdowicz.cfolks.pl/public_html/build/
           remote_host: ${{ secrets.SSH_HOST }}
           remote_port: ${{ secrets.SSH_PORT }}
           remote_user: ${{ secrets.SSH_USER }}
@@ -47,10 +47,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
+            PHP=/opt/alt/php85/usr/bin/php
             cd ~/domains/wyjazdowicz.cfolks.pl/repo
             git pull
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
+            $PHP ~/bin/composer install --no-dev --optimize-autoloader
+            $PHP artisan migrate --force
+            $PHP artisan config:cache
+            $PHP artisan route:cache
+            $PHP artisan view:cache
