@@ -27,7 +27,7 @@ hints:
 ## Why this stack
 
 Solo developer building a small single-user web app (Wyjazdowicz) in 3
-weeks after-hours, with auth in scope and PostgreSQL preferred. The user
+weeks after-hours, with auth in scope. PostgreSQL was initially preferred but
 chose the custom path to pick PHP explicitly over the JS-family recommended
 default, since they work daily with PHP/Symfony professionally and want to
 use this project to also pick up Laravel. Laravel is the only registered PHP
@@ -41,3 +41,10 @@ targets the user's own SSH-accessible server (self-host, one of Laravel's
 supported deployment defaults). CI runs on GitHub Actions with
 auto-deploy-on-merge, matching solo/small-team defaults and setting up the
 later 10xChampion CI/CD review pipeline on the same provider.
+
+**Update (2026-07-18, `/10x-infra-research`)**: the self-host target was
+confirmed to be shared hosting (cyberFolks, DirectAdmin panel, CloudLinux) —
+`pdo_pgsql` is not among the available PHP extensions (only `pdo_mysql` and
+`pdo_sqlite`). Database was switched to **MySQL/MariaDB**, provisioned via
+the DirectAdmin panel. See `context/foundation/infrastructure.md` for the
+full hosting profile.
