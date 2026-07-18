@@ -1,76 +1,71 @@
 <!-- BEGIN @przeprogramowani/10x-cli -->
 
-## 10xDevs AI Toolkit — Moduł 1, Lekcja 2
+## 10xDevs AI Toolkit — Moduł 1, Lekcja 3
 
-Wybierz starter i stos dla PRD, który napisałeś w Lekcji 1, z **łańcuchem stosu**:
+Szkielet projektu dla stosu wybranego w Lekcji 2, z **łańcuchem bootstrap**:
 
 ```
-(/10x-init  →  /10x-shape  →  /10x-prd)  →  /10x-tech-stack-selector  →  (bootstrapper)
+(/10x-init  →  /10x-shape  →  /10x-prd)  →  /10x-tech-stack-selector  →  /10x-bootstrapper
 ```
 
-Łańcuch PRD pochodzi z Lekcji 1 (ponownie uwzględniony w tej lekcji, abyś mógł poprawić PRD w trakcie pracy). `/10x-tech-stack-selector` to główny temat lekcji; `/10x-bootstrapper` to następne ogniwo, nauczane w Lekcji 3.
+Łańcuch PRD pochodzi z Lekcji 1, a tech-stack-selector z Lekcji 2 — oba są ponownie uwzględnione w tej lekcji, abyś mógł poprawić PRD lub zmienić stos w trakcie pracy. `/10x-bootstrapper` to główny temat lekcji. Łańcuch kończy się tutaj w v1; przyszła Lekcja 4 skonfiguruje kontekst agenta (`CLAUDE.md`, `AGENTS.md`).
 
 ### Router zadań — Od czego zacząć
 
-| Umiejętność | Kiedy jej używać |
+| Umiejętność | Kiedy jej użyć |
 | --- | --- |
-| **Wybór stosu (główny temat lekcji)** | |
-| `/10x-tech-stack-selector` | Masz PRD w `context/foundation/prd.md` i musisz wybrać starter. Rozpoczyna się od wyraźnego wyboru (przyjmij zalecaną domyślną opcję dla swojej komórki `(product_type, language_family)` lub zaprojektuj własną), przeprowadza przez zestaw pytań uzupełniających, gdy projektujesz własną, stosuje cztery bramki jakości przyjazne dla agenta, analizuje rejestr starterów uwzględniający język i zapisuje `context/foundation/tech-stack.md`. Opcjonalny argument `[path-to-prd]` pozwala wskazać niestandardową lokalizację PRD (np. `/10x-tech-stack-selector @context/foundation/prd-v2.md`); bez niego umiejętność domyślnie używa `context/foundation/prd.md`. Użyj PO `/10x-prd`, PRZED `/10x-bootstrapper`. |
+| **Bootstrap (główny temat lekcji)** | |
+| `/10x-bootstrapper` | Masz przekazanie w `context/foundation/tech-stack.md` (napisane przez `/10x-tech-stack-selector`) i jesteś gotowy do utworzenia szkieletu projektu w bieżącym katalogu. Umiejętność odczytuje przekazanie, wyszukuje wybraną kartę w rejestrze starterów, uruchamia jej CLI za pomocą jednej z trzech strategii cwd (szkielet do katalogu tymczasowego, a następnie przenosi pliki w górę; szkielet bezpośrednio do bieżącego katalogu; klonuje repozytorium startera bez zachowywania jego historii git), zawsze zachowuje `context/`, odsuwa inne konflikty jako rodzeństwo `.scaffold`, uruchamia lekkie sprawdzenie aktualności przed szkieletowaniem i głębszy audyt po szkieletowaniu, a także zapisuje dziennik weryfikacji do `context/changes/bootstrap-verification/verification.md`. Użyj PO `/10x-tech-stack-selector`. |
 | **Ponowne uruchomienie upstream w razie potrzeby** | |
-| `/10x-init` / `/10x-shape` / `/10x-prd` | Zestawione, abyś mógł poprawić PRD w trakcie pracy. Jeśli `/10x-tech-stack-selector` ujawni lukę (np. Wymaganie Funkcjonalne, które wymusza funkcję, której nie ma Twój zalecany starter), uruchom ponownie `/10x-prd`, aby poprawić PRD przed wyborem stosu. |
+| `/10x-init` / `/10x-shape` / `/10x-prd` / `/10x-tech-stack-selector` | Zestawione, abyś mógł poprawić PRD lub zmienić stos w trakcie pracy. Jeśli `/10x-bootstrapper` zgłosi odmowę z powodu dryfu rejestru lub zmienisz zdanie co do startera, uruchom ponownie `/10x-tech-stack-selector`, aby ponownie wygenerować `tech-stack.md` i ponownie wywołać. |
 
-### Jak działa przekazywanie
+### Jak łańcuch przekazuje dane
 
-- `/10x-tech-stack-selector` odczytuje frontmatter `context/foundation/prd.md` (`product_type`, `target_scale`, `timeline_budget`) jako priorytet. Jeśli PRD jest nieobecne, odmawia z jednosentencyjnym przekierowaniem do `/10x-shape` — brak wbudowanego awaryjnego mini-PRD.
-- Umiejętność zapisuje `context/foundation/tech-stack.md` z 4-kluczowym frontmatterem (`starter_id`, `package_manager`, `project_name`, `hints`) plus jednoparagraphowym ciałem `## Why this stack`. Przekazanie jest celowo minimalne — bootstrapper nie analizuje uzasadnienia, tylko pola.
-- `/10x-bootstrapper` (Lekcja 3) odczytuje `tech-stack.md` i rejestr, aby stworzyć szkielet projektu.
+- `/10x-tech-stack-selector` (Lekcja 2) zapisuje `context/foundation/tech-stack.md` z 4-kluczowym frontmatterem (`starter_id`, `package_manager`, `project_name`, `hints`) plus jednoparograficzną treść `## Why this stack`.
+- `/10x-bootstrapper` odczytuje ten plik W CAŁOŚCI (bez powrotu do historii rozmów). Jeśli go brakuje, umiejętność odmawia z jednosentencyjnym przekierowaniem do `/10x-tech-stack-selector` i zatrzymuje się — brak wbudowanego mini-przekazania, brak trybu samodzielnego w v1.
+- Wybrany `starter_id` jest wyszukiwany w `/skills/10x-tech-stack-selector/references/starter-registry.yaml`. Umiejętność konsumuje ten rejestr; nie jest jego właścicielem. Walidator CI (`scripts/validate-starter-registry-sync.mjs`) zapobiega odwoływaniu się bootstrapper'a do `starter_id` nieobecnego w rejestrze.
+- Umiejętność zapisuje `context/changes/bootstrap-verification/verification.md` jako dziennik audytu dla uruchomienia. Schemat w `/skills/10x-bootstrapper/references/verification-log-schema.md`.
 
-### Co przechwytuje tech-stack-selector (a czego NIE)
+### Co bootstrapper przechwytuje (a czego NIE)
 
-- **Przechwycone**: wybór startera (w kształcie rejestru), rodzina języków, menedżer pakietów (otwarty ciąg znaków dla każdego ekosystemu — `pnpm`, `uv`, `bundle`, `cargo` itp.), rozmiar zespołu, cel wdrożenia (pobrany z `deployment_defaults` wybranego startera), dostawca CI/CD + przepływ, pewność bootstrapper'a (`verified | first-class | best-effort`), wybrana ścieżka (standardowa | niestandardowa), odpowiedzi na samoocenę (ścieżka niestandardowa), nadpisanie jakości (ustawiane, gdy użytkownik kontynuuje ze starterem, który nie przeszedł ≥1 bramki przyjaznej dla agenta), flagi funkcji (uwierzytelnianie/płatności/realtime/AI/zadania w tle).
-- **NIE przechwycone (celowo)**: strategiczny plan testów, strategiczny plan wdrożenia, strategiczne decyzje implementacyjne. Są one dalszym etapem po wyborze stosu — przyszłym problemem mapy drogowej technicznej, jeszcze nie zaplanowanym. Tech-stack-selector odpowiada za wybory testów/wdrożenia/CI w *kształcie frameworka*, ponieważ są one nierozłączne z wyborem stosu; to, co jest odroczone, to warstwa *strategiczna* ("testujemy TDD na powierzchni X", "środowisko podglądu dla każdego PR").
+- **Przechwycone (v1)**: szkieletowanie za pomocą `cmd_template` wybranej karty (delegacja CLI, a nie generowanie plików wbudowanych), trzy strategie cwd wysyłane z `bootstrapper-config.yaml` (`subdir-then-move`, `native-cwd`, `git-clone`), ścisła polityka konfliktów tworząca rodzeństwo `.scaffold` + zawsze zachowująca `context/`, dwa miejsca na weryfikację (lekkie sprawdzenie aktualności przed szkieletowaniem + głęboki audyt po szkieletowaniu z uwzględnieniem języka), podsumowanie audytu z podziałem na poziomy ważności, pełny dziennik weryfikacji na dysku.
+- **NIE przechwycone w v1 (celowo)**: generowanie `AGENTS.md` / `CLAUDE.md` (odłożone na przyszłą Lekcję 4 — "Architektura Pamięci"); nakładki umieszczania elementów certyfikatów dla każdego startera (będą dostępne z przyszłą umiejętnością kontekstu agenta, nie tutaj); pliki workflow CI; fallback AI-as-bridge dla stosów spoza rejestru (odłożone na v2 — w trybie łańcucha v1 tech-stack-selector już bramkuje na rejestrze, więc ten przypadek nie może wystąpić); tryb samodzielny, w którym użytkownik podaje stos wbudowany bez przekazania (odłożone na v2); działania kompensacyjne dla `bootstrapper_confidence: best-effort` lub `quality_override: true` (wyświetlane w rozmowie, ale bez automatycznego działania — to również zadanie przyszłej umiejętności architektury pamięci).
 
-### Wybór początkowy (kluczowy)
+### Polityka konfliktów
 
-Pierwsze pytanie to wyraźny wybór — nigdy nie jest ciche. Umiejętność od razu podaje zalecany starter dla Twojej komórki `(product_type, language_family)` i prosi o wyraźne potwierdzenie:
+Gdy umiejętność przenosi pliki z tymczasowego katalogu szkieletu do bieżącego katalogu roboczego, stosuje ścisłą matrycę:
 
-- **Ścieżka standardowa** — zaakceptuj zalecaną domyślną opcję. Umiejętność pomija audyt funkcji, profil zespołu, preferencje techniczne i pytania dotyczące wariantów frameworka; pyta tylko o wdrożenie, CI/CD i nazwę projektu. Przekazanie rejestruje `path_taken: standard` w `hints`.
-- **Ścieżka niestandardowa** — zaprojektuj własną. Umiejętność przeprowadza przez pełny zestaw pytań uzupełniających (audyt funkcji, profil zespołu, preferencje techniczne, wdrożenie, CI/CD, wariant frameworka), zagłębia się w pytanie o runnera testów tylko wtedy, gdy wybrany starter pozostawia to niejednoznaczne, i kończy 5-punktową samooceną gotowości (z lekcji przygotowawczej 4.1) przed zablokowaniem. Przekazanie rejestruje `path_taken: custom` i wypełnia `self_check_answers`.
+- **`context/**`** — wszystko, co szkielet próbował zapisać w `context/`, jest **odrzucane**. Twój `context/` jest źródłem prawdy dla łańcucha bootstrap (PRD, przekazanie tech-stack, plany, ramki) i nigdy nie jest nadpisywany.
+- **`.gitignore`** — scalane przez dodanie: twoje istniejące linie pozostają w kolejności, a następnie linie szkieletu są deduplikowane względem twojego zestawu i dodawane z komentarzem separatora. Semantyka ignorowania Gita jest addytywna, więc łączenie jest bezpieczne.
+- **`package.json`, `README.md`, `CLAUDE.md`, `AGENTS.md`, pliki `*.md` na poziomie głównym** — twój istniejący plik wygrywa; kopia szkieletu ląduje jako rodzeństwo `<filename>.scaffold`. Możesz `diff README.md README.md.scaffold`, aby zobaczyć, co dostarczył starter, a co miałeś.
+- **Cokolwiek innego** — przenosi się cicho, jeśli nie ma konfliktu, odsuwane jako `<filename>.scaffold`, jeśli taki istnieje. Matryca nigdy nie usuwa plików użytkownika.
 
-Mapa zalecanych domyślnych opcji dla każdej komórki jest wielojęzyczna: web/JS i saas/JS oba → 10x-astro-starter (starter marki 10x prowadzi, gdy konkuruje w komórce JS); api/JS → hono; api/Python → fastapi; web/Python → django; web/Ruby → rails; api/Go → go; api/Rust → axum; mobile/Dart → flutter; desktop/Rust → tauri; itp. Komórki bez sprawdzonej domyślnej opcji mają `<none>` i wymuszają ścieżkę niestandardową.
+Dla strategii `git-clone` (10x-astro-starter i podobne): sklonowany `.git/` jest usuwany przed przeniesieniem w górę, więc historia startera upstream nie wycieka do twojego repozytorium. Inicjujesz własną historię później (`git init`).
 
-### Bramki jakości (kryteria przyjazne dla agenta)
+### Dziennik weryfikacji
 
-Każda karta startera zawiera cztery wartości logiczne, które LLM filtruje:
+Każde uruchomienie zapisuje `context/changes/bootstrap-verification/verification.md`. Sekcje:
 
-1. **Typed** — jawne typy/schematy, z których agent może wnioskować bez uruchamiania programu.
-2. **Convention-based** — silne opinie na temat układu, routingu, konfiguracji.
-3. **Popular in training data** — oceniane *dla każdej rodziny języków*, a nie globalnie (Django jest popularne w danych treningowych Pythona; Spring w Javie; itp.).
-4. **Well-documented** — aktualna, przypięta do wersji, z możliwością linkowania dokumentacja.
+- **`## Hand-off`** — dosłowna kopia frontmattera tech-stack.md i treści `## Why this stack`.
+- **`## Pre-scaffold verification`** — tabela wyników aktualności (wersja pakietu npm + `time.modified` dla starterów JS; GitHub `pushed_at` dla każdego startera z GitHub `docs_url`).
+- **`## Scaffold log`** — wywołanie CLI, kod wyjścia, przeniesione pliki, konflikty wyświetlone jako rodzeństwo `.scaffold`, obsługa `.gitignore`.
+- **`## Post-scaffold audit`** — pełny wynik audytu dla każdego języka (`npm audit --json` dla JS, `pip-audit` dla Pythona, `cargo audit` dla Rust itp.). Podzielony na poziomy ważności: CRITICAL i HIGH wyświetlane w czacie, MODERATE i LOW tylko w dzienniku. Podział na bezpośrednie i przechodnie, jeśli narzędzie to obsługuje.
+- **`## Hints recorded but not acted on`** — każda wskazówka z przekazania, którą bootstrapper odczytał, ale nie zadziałał w v1. Kompletność ścieżki audytu dla przyszłej umiejętności architektury pamięci.
+- **`## Next steps`** — tekst wskazujący. v1 nazywa "twój projekt jest szkieletowany i zweryfikowany — miłego kodowania" i oznacza przyszłą umiejętność Lekcji 4 jako następne ogniwo łańcucha.
 
-Kandydaci, którzy nie przejdą żadnej bramki, są wykluczani z zestawu niezapowiedzianych rekomendacji. Jeśli wyraźnie nazwiesz starter, który nie przeszedł testu, jako swoją preferencję, umiejętność zakwestionuje ten wybór — wskazując najsilniejszą alternatywę o wyższych kryteriach ORAZ ścieżkę kompensacji (instrukcje CLAUDE.md, które łatają luki) — i poprosi o potwierdzenie lub zmianę. Potwierdzenie wyboru z znanymi trudnościami rejestruje nadpisanie w przekazaniu, aby bootstrapper mógł się dostosować.
+Folder (`context/changes/bootstrap-verification/`) celowo nie zawiera `change.md`. Uruchomienia bootstrap to jednorazowe artefakty, nie śledzone zmiany workflow — folder zawiera dziennik i nic więcej. Ponowne uruchomienia stosują ostrzeżenie i potwierdzenie przed nadpisaniem; wyjściem awaryjnym jest `verification-v2.md` (i tak dalej).
 
-### Pewność bootstrapper'a
+### Ścieżki podstawowe używane w tej lekcji
 
-Każda rekomendacja wyświetla `bootstrapper_confidence` dosłownie — nigdy nie jest cicho pomijana:
-
-- **`verified`** — bootstrapper został uruchomiony od początku do końca na tym stosie; scaffolding będzie płynny.
-- **`first-class`** — zarejestrowany z prawidłowym CLI, oczekuje się, że będzie działać, ale nie został przetestowany w boju; spodziewaj się w większości płynnego scaffoldingu z okazjonalnymi ręcznymi krokami.
-- **`best-effort`** — ograniczone wsparcie; prawdopodobne ręczne kroki; spodziewaj się tarcia (a generowanie CLAUDE.md przez bootstrapper'a kompensuje to dodatkowym kontekstem specyficznym dla ekosystemu).
-
-To jest ostrzeżenie przed uruchomieniem `/10x-bootstrapper`, abyś wiedział, czego się spodziewać.
-
-### Ścieżki bazowe używane w tej lekcji
-
-- `context/foundation/prd.md` — wejście (z Lekcji 1)
-- `context/foundation/tech-stack.md` — wyjście (przekazanie łańcucha)
+- `context/foundation/tech-stack.md` — wejście (z Lekcji 2)
+- `context/changes/bootstrap-verification/verification.md` — wyjście (dziennik audytu)
 - `context/foundation/lessons.md` — powtarzające się zasady i pułapki
-- `docs/reference/contract-surfaces.md` — rejestr kluczowych nazw
+- `docs/reference/contract-surfaces.md` — rejestr nazw nośnych
 
 ### Uniwersalny język
 
-Dostarczona umiejętność nie zawiera odniesień do 10xDevs / kohorty / certyfikacji. Rejestr zalecanych domyślnych opcji jest wielojęzyczny (JS, Python, Ruby, Java, Go, Rust, PHP, .NET, Dart), a `10x-astro-starter` kohorty to jedna z kart w komórce JS+web — nie jest to "jedyna" zalecana ścieżka dla wszystkich.
+Dostarczona umiejętność nie zawiera odniesień do 10xDevs / kohorty / certyfikacji. Audyt po szkieletowaniu wysyła dane według `language_family` do małej tabeli wyszukiwania; kohorty, których stos ląduje w `java`, `php`, `dart` lub kombinacji wielu języków, widzą w dzienniku linię "brak wbudowanego narzędzia audytowego dla tego ekosystemu" i zalecane narzędzie zewnętrzne, a nie fałszywy rekord "0 findings".
 
-Umiejętności nie mogą zapisywać do `context/archive/`. Zarchiwizowane zmiany są niezmienne; jeśli docelowa ścieżka zaczyna się od `context/archive/`, przerwij z komunikatem: "Ta zmiana jest zarchiwizowana. Otwórz nową zmianę za pomocą `/10x-new`."
+Umiejętności nie mogą zapisywać do `context/archive/`. Zarchiwizowane zmiany są niezmienne; jeśli rozwiązana ścieżka docelowa zaczyna się od `context/archive/`, przerwij z komunikatem: "Ta zmiana jest zarchiwizowana. Zamiast tego otwórz nową zmianę za pomocą `/10x-new`."
 
 <!-- END @przeprogramowani/10x-cli -->
