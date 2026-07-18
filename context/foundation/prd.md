@@ -1,14 +1,14 @@
 ---
 project: "Wyjazdowicz"
 version: 1
-status: draft
+status: final
 created: 2026-07-15
 context_type: greenfield
 product_type: web-app
 target_scale:
   users: small
-  qps: "# TODO: qps — see Open Questions"
-  data_volume: "# TODO: data_volume — see Open Questions"
+  qps: negligible
+  data_volume: small
 timeline_budget:
   mvp_weeks: 3
   hard_deadline: 2026-08-10
@@ -184,7 +184,3 @@ MVP, ponieważ MVP zakłada jednego użytkownika.
 - Brak wsparcia dla wielu drużyn na jedno konto — jedna ulubiona drużyna per użytkownik na MVP.
 - Brak porównania osobistego bilansu z ogólnym bilansem drużyny — wskaźnik "pechowego kibica" opiera się wyłącznie na własnym W/D/L użytkownika.
 - Brak trybu offline — aplikacja wymaga połączenia z internetem.
-
-## Open Questions
-
-1. **Jaki jest oczekiwany qps i wolumen danych w skali?** — Owner: użytkownik. Nie blokujące dla MVP (single-user), ale przydatne przy planowaniu infrastruktury, jeśli produkt urośnie do wielu użytkowników.

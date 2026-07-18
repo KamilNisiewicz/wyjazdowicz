@@ -6,3 +6,8 @@
 *.swp
 
 START-KONTEKST.md
+
+# 10x-cli: pliki narzędziowe skilli, odtwarzalne przez `10x get <lekcja>`
+.claude/skills/
+.claude/prompts/
+.claude/.10x-cli-manifest.json
