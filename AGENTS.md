@@ -37,4 +37,5 @@ Wyjazdowicz to aplikacja webowa w Laravel 13 (PHP 8.3) do śledzenia wyjazdów k
 ## Commity
 
 - Dotychczasowa historia: komunikaty po polsku, tryb rozkazujący, bez prefiksów typu (np. „Zescaffolduj projekt Laravel”, „Domknij PRD, wybierz stos (Laravel), przestań śledzić skille 10x-cli”). Trzymaj się tego wzorca.
+- **Krótko.** Jedna linijka, bez wieloakapitowego body, bez wypunktowań, bez trailera `Co-Authored-By`. Użytkownik jawnie tego zażądał — nie rozwijaj commit message w dłuższe wyjaśnienie, nawet gdy zmiana jest duża.
 - Brak jeszcze pipeline'u CI (`.github/workflows/`) — do skonfigurowania w dalszej pracy nad projektem.
