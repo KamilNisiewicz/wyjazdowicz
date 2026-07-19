@@ -208,12 +208,12 @@ Brak nowych migracji — tabele `users`, `password_reset_tokens`, `sessions` ju�
 
 #### Automatyczne
 
-- [x] 2.1 php artisan route:list nie zawiera trasy password.* ani verification.*
-- [x] 2.2 Pełny zestaw testów przechodzi: php artisan test
-- [x] 2.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 2.1 php artisan route:list nie zawiera trasy password.* ani verification.* — 4ffe33e
+- [x] 2.2 Pełny zestaw testów przechodzi: php artisan test — 4ffe33e
+- [x] 2.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania — 4ffe33e
 
 #### Ręczne
 
-- [x] 2.4 GET /forgot-password i GET /verify-email zwracają 404
-- [x] 2.5 Rejestracja ze słabym hasłem pokazuje błąd walidacji
-- [x] 2.6 Rejestracja z mocnym hasłem kończy się sukcesem i zalogowaniem
+- [x] 2.4 GET /forgot-password i GET /verify-email zwracają 404 — 4ffe33e
+- [x] 2.5 Rejestracja ze słabym hasłem pokazuje błąd walidacji — 4ffe33e
+- [x] 2.6 Rejestracja z mocnym hasłem kończy się sukcesem i zalogowaniem — 4ffe33e

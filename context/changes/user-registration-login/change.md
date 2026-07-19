@@ -1,7 +1,7 @@
 ---
 change_id: user-registration-login
 title: Rejestracja i logowanie użytkownika
-status: implementing
+status: implemented
 created: 2026-07-19
 updated: 2026-07-19
 archived_at: null
