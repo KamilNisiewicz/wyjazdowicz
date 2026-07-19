@@ -193,27 +193,27 @@ Brak nowych migracji — tabele `users`, `password_reset_tokens`, `sessions` ju�
 
 #### Automatyczne
 
-- [x] 1.1 composer install kończy się bez błędów
-- [x] 1.2 php artisan migrate --force na świeżej bazie SQLite przechodzi bez błędów
-- [x] 1.3 npm install && npm run build kończy się bez błędów
-- [x] 1.4 Pełny zestaw wygenerowanych testów przechodzi: php artisan test --filter=Auth
-- [x] 1.5 php artisan route:list pokazuje trasy register, login, logout, dashboard
+- [x] 1.1 composer install kończy się bez błędów — 68eee94
+- [x] 1.2 php artisan migrate --force na świeżej bazie SQLite przechodzi bez błędów — 68eee94
+- [x] 1.3 npm install && npm run build kończy się bez błędów — 68eee94
+- [x] 1.4 Pełny zestaw wygenerowanych testów przechodzi: php artisan test --filter=Auth — 68eee94
+- [x] 1.5 php artisan route:list pokazuje trasy register, login, logout, dashboard — 68eee94
 
 #### Ręczne
 
-- [x] 1.6 Rejestracja konta testowego przez /register, przekierowanie na /dashboard
-- [x] 1.7 Wylogowanie i ponowne zalogowanie przez /login
+- [x] 1.6 Rejestracja konta testowego przez /register, przekierowanie na /dashboard — 68eee94
+- [x] 1.7 Wylogowanie i ponowne zalogowanie przez /login — 68eee94
 
 ### Faza 2: Dopasowanie do zakresu MVP
 
 #### Automatyczne
 
-- [ ] 2.1 php artisan route:list nie zawiera trasy password.* ani verification.*
-- [ ] 2.2 Pełny zestaw testów przechodzi: php artisan test
-- [ ] 2.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 2.1 php artisan route:list nie zawiera trasy password.* ani verification.*
+- [x] 2.2 Pełny zestaw testów przechodzi: php artisan test
+- [x] 2.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania
 
 #### Ręczne
 
-- [ ] 2.4 GET /forgot-password i GET /verify-email zwracają 404
-- [ ] 2.5 Rejestracja ze słabym hasłem pokazuje błąd walidacji
-- [ ] 2.6 Rejestracja z mocnym hasłem kończy się sukcesem i zalogowaniem
+- [x] 2.4 GET /forgot-password i GET /verify-email zwracają 404
+- [x] 2.5 Rejestracja ze słabym hasłem pokazuje błąd walidacji
+- [x] 2.6 Rejestracja z mocnym hasłem kończy się sukcesem i zalogowaniem
