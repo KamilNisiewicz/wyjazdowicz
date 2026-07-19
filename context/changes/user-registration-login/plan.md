@@ -217,3 +217,13 @@ Brak nowych migracji — tabele `users`, `password_reset_tokens`, `sessions` ju�
 - [x] 2.4 GET /forgot-password i GET /verify-email zwracają 404 — 4ffe33e
 - [x] 2.5 Rejestracja ze słabym hasłem pokazuje błąd walidacji — 4ffe33e
 - [x] 2.6 Rejestracja z mocnym hasłem kończy się sukcesem i zalogowaniem — 4ffe33e
+
+## Dodatek: lokalizacja PL (odkryte podczas Fazy 1)
+
+Podczas ręcznej weryfikacji Fazy 1 użytkownik zauważył, że domyślny UI Breeze jest po angielsku, mimo że cały projekt (PRD, AGENTS.md, historia commitów) jest po polsku. To luka nieprzewidziana w oryginalnym zakresie planu — dodano ją jako adaptację w trakcie implementacji (zob. `AskUserQuestion` w tej samej sesji), nie jako osobną fazę.
+
+Zakres dodatku: `APP_LOCALE=pl` w `.env`/`.env.example`; `lang/pl/{auth,validation,passwords,pagination}.php` (komunikaty walidacji/logowania — Breeze i tak używał `__()` wszędzie); `lang/pl.json` (27 kluczy dla tekstów widoków: etykiety, przyciski, nagłówki); trzy stringi w `resources/views/welcome.blade.php` ("Dashboard"/"Log in"/"Register") owinięte w `__()` i przetłumaczone, ponieważ to jedyne miejsce w scaffoldzie, gdzie Breeze zostawił hardkodowany angielski tekst.
+
+Świadomie NIE przetłumaczono: linku "Forgot your password?" (usunięty w Fazie 2, tłumaczenie byłoby zmarnowane) ani reszty treści marketingowej `welcome.blade.php` (domyślna zawartość Laravela, poza zakresem S-01, zostanie zastąpiona właściwą stroną główną w kolejnych elementach mapy drogowej).
+
+Zweryfikowane: `php artisan test` (25/25 po Fazie 1, 18/18 po Fazie 2 — testy nie asertują treści tekstowej, więc lokalizacja ich nie łamie), ręczna inspekcja `/register`, `/login`, `/` w przeglądarce.
