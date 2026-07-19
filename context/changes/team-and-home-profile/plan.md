@@ -253,15 +253,15 @@ Nowa tabela `teams`, brak istniejących danych do migrowania. Istniejące konto(
 
 #### Automatyczne
 
-- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test
-- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
-- [x] 2.3 php artisan route:list pokazuje trasy team.edit, team.search, team.store
+- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test — e6678ff
+- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania — e6678ff
+- [x] 2.3 php artisan route:list pokazuje trasy team.edit, team.search, team.store — e6678ff
 
 #### Ręczne
 
-- [x] 2.4 Świeżo zarejestrowane konto: /dashboard przekierowuje na /team
-- [x] 2.5 Realna nazwa drużyny i polskie miasto: lista kandydatów z prawdziwego Nominatim
-- [x] 2.6 Wybór kandydata i zapis: przekierowanie na /dashboard, dashboard dostępny
-- [x] 2.7 Ponowne wejście na /team pokazuje wcześniej zapisane dane
-- [x] 2.8 Nieistniejąca nazwa miasta: czytelny polski błąd, nic nie zapisane
-- [x] 2.9 Link "Drużyna" w nawigacji działa i podświetla się jako aktywny
+- [x] 2.4 Świeżo zarejestrowane konto: /dashboard przekierowuje na /team — e6678ff
+- [x] 2.5 Realna nazwa drużyny i polskie miasto: lista kandydatów z prawdziwego Nominatim — e6678ff
+- [x] 2.6 Wybór kandydata i zapis: przekierowanie na /dashboard, dashboard dostępny — e6678ff
+- [x] 2.7 Ponowne wejście na /team pokazuje wcześniej zapisane dane — e6678ff
+- [x] 2.8 Nieistniejąca nazwa miasta: czytelny polski błąd, nic nie zapisane — e6678ff
+- [x] 2.9 Link "Drużyna" w nawigacji działa i podświetla się jako aktywny — e6678ff
