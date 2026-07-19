@@ -1,7 +1,7 @@
 ---
 change_id: team-and-home-profile
 title: Team and home profile
-status: implemented
+status: impl_reviewed
 created: 2026-07-19
 updated: 2026-07-19
 archived_at: null

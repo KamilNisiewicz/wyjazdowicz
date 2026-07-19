@@ -44,6 +44,22 @@ class NominatimGeocoderTest extends TestCase
         ], $results);
     }
 
+    public function test_search_skips_malformed_records_instead_of_throwing(): void
+    {
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => Http::response([
+                ['display_name' => 'Warszawa, Polska', 'lat' => '52.23', 'lon' => '21.01'],
+                ['display_name' => 'Rekord bez współrzędnych'],
+            ], 200),
+        ]);
+
+        $results = (new NominatimGeocoder)->search('Warszawa');
+
+        $this->assertSame([
+            ['display_name' => 'Warszawa, Polska', 'lat' => 52.23, 'lon' => 21.01],
+        ], $results);
+    }
+
     public function test_search_returns_empty_array_when_no_results(): void
     {
         Http::fake([

@@ -113,6 +113,22 @@ class TeamTest extends TestCase
         ]);
     }
 
+    public function test_store_rejects_candidate_index_outside_submitted_candidates(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/team', [
+            'name' => 'Legia Warszawa',
+            'candidate' => 1,
+            'candidates' => [
+                ['display_name' => 'Warszawa, Polska', 'lat' => 52.23, 'lon' => 21.01],
+            ],
+        ]);
+
+        $response->assertSessionHasErrors('candidate');
+        $this->assertDatabaseCount('teams', 0);
+    }
+
     public function test_store_updates_existing_team_instead_of_creating_new_one(): void
     {
         $user = User::factory()->create();
