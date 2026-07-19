@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'nominatim' => [
+        'user_agent' => env('NOMINATIM_USER_AGENT', 'Wyjazdowicz/1.0 (kamnisiewicz@gmail.com)'),
+    ],
+
 ];
