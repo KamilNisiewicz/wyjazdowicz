@@ -241,27 +241,27 @@ Nowa tabela `teams`, brak istniejących danych do migrowania. Istniejące konto(
 
 #### Automatyczne
 
-- [x] 1.1 Migracja stosuje się czysto: php artisan migrate --force na świeżej bazie SQLite
-- [x] 1.2 Testy jednostkowe przechodzą: php artisan test tests/Unit/NominatimGeocoderTest.php
-- [x] 1.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 1.1 Migracja stosuje się czysto: php artisan migrate --force na świeżej bazie SQLite — 5296fe8
+- [x] 1.2 Testy jednostkowe przechodzą: php artisan test tests/Unit/NominatimGeocoderTest.php — 5296fe8
+- [x] 1.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania — 5296fe8
 
 #### Ręczne
 
-- [x] 1.4 php artisan tinker: NominatimGeocoder->search('Warszawa') przeciw prawdziwemu Nominatim zwraca niepustą listę
+- [x] 1.4 php artisan tinker: NominatimGeocoder->search('Warszawa') przeciw prawdziwemu Nominatim zwraca niepustą listę — 5296fe8
 
 ### Faza 2: Formularz drużyny, potwierdzenie geokodowania i wymuszone przekierowanie z dashboardu
 
 #### Automatyczne
 
-- [ ] 2.1 Pełny zestaw testów przechodzi: php artisan test
-- [ ] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
-- [ ] 2.3 php artisan route:list pokazuje trasy team.edit, team.search, team.store
+- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test
+- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 2.3 php artisan route:list pokazuje trasy team.edit, team.search, team.store
 
 #### Ręczne
 
-- [ ] 2.4 Świeżo zarejestrowane konto: /dashboard przekierowuje na /team
-- [ ] 2.5 Realna nazwa drużyny i polskie miasto: lista kandydatów z prawdziwego Nominatim
-- [ ] 2.6 Wybór kandydata i zapis: przekierowanie na /dashboard, dashboard dostępny
-- [ ] 2.7 Ponowne wejście na /team pokazuje wcześniej zapisane dane
-- [ ] 2.8 Nieistniejąca nazwa miasta: czytelny polski błąd, nic nie zapisane
-- [ ] 2.9 Link "Drużyna" w nawigacji działa i podświetla się jako aktywny
+- [x] 2.4 Świeżo zarejestrowane konto: /dashboard przekierowuje na /team
+- [x] 2.5 Realna nazwa drużyny i polskie miasto: lista kandydatów z prawdziwego Nominatim
+- [x] 2.6 Wybór kandydata i zapis: przekierowanie na /dashboard, dashboard dostępny
+- [x] 2.7 Ponowne wejście na /team pokazuje wcześniej zapisane dane
+- [x] 2.8 Nieistniejąca nazwa miasta: czytelny polski błąd, nic nie zapisane
+- [x] 2.9 Link "Drużyna" w nawigacji działa i podświetla się jako aktywny

@@ -26,6 +26,24 @@ class NominatimGeocoderTest extends TestCase
         ], $results);
     }
 
+    public function test_search_deduplicates_results_with_identical_display_name(): void
+    {
+        // Nominatim zwraca to realnie dla niektórych miast (np. "Zabrze") — kilka obiektów
+        // OSM z tym samym display_name, ale nieznacznie innymi współrzędnymi.
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => Http::response([
+                ['display_name' => 'Zabrze, województwo śląskie, Polska', 'lat' => '50.3142806', 'lon' => '18.7815763'],
+                ['display_name' => 'Zabrze, województwo śląskie, Polska', 'lat' => '50.3086154', 'lon' => '18.7863749'],
+            ], 200),
+        ]);
+
+        $results = (new NominatimGeocoder)->search('Zabrze');
+
+        $this->assertSame([
+            ['display_name' => 'Zabrze, województwo śląskie, Polska', 'lat' => 50.3142806, 'lon' => 18.7815763],
+        ], $results);
+    }
+
     public function test_search_returns_empty_array_when_no_results(): void
     {
         Http::fake([

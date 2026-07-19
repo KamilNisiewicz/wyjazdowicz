@@ -36,6 +36,11 @@ class NominatimGeocoder
                 'lat' => (float) $result['lat'],
                 'lon' => (float) $result['lon'],
             ])
+            // Nominatim może zwrócić kilka obiektów OSM (węzeł, granica administracyjna) dla
+            // tego samego miasta z identycznym display_name, ale lekko różnymi współrzędnymi —
+            // nieodróżnialne w UI, więc bierzemy pierwszy (najbardziej trafny) wynik.
+            ->unique('display_name')
+            ->values()
             ->all();
     }
 }
