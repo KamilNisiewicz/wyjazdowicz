@@ -83,6 +83,8 @@ The team deployed Wyjazdowicz to cyberFolks shared hosting. Six months in, it we
 | MySQL swap not yet reflected anywhere except `tech-stack.md`/this file | Research finding | L | M | `.env` on server must set `DB_CONNECTION=mysql` explicitly; local dev keeps `sqlite` (already the scaffold default) — no code change needed, only environment config |
 | DirectAdmin PHP Selector refuses symlinked `public_html`, silently drops to PHP 8.2 | Research finding (confirmed live) | — (already hit and fixed) | H | Use a real `public_html` directory with a hand-patched `index.php`/`.htaccess`, not a symlink; documented in `deploy-plan.md` |
 | MySQL DB user granted for `localhost` only, not `127.0.0.1` — `Access denied` if misconfigured | Research finding (confirmed live) | — (already hit and fixed) | M | `.env` must use `DB_HOST=localhost` on this host |
+| Laravel's `public_path()` resolves against `repo/public/`, not `public_html/` — `@vite()` read a stale, never-updated manifest while the CI pipeline only rsyncs assets to `public_html/build/`, so deploys reported success but the live site 404'd on every CSS/JS asset | Confirmed live, 2026-07-19 (S-01/`user-registration-login`) | — (already hit and fixed) | H | One-time fix: `cd repo/public && rm -rf build && ln -s ../../public_html/build build` — makes both paths resolve to the same physical files on every future deploy. See `context/deployment/deploy-plan.md` and `context/foundation/lessons.md`. |
+| Production `.env` is server-local and gitignored — code/config changes in the repo (e.g. `APP_LOCALE`) never reach production automatically, only `.env.example` does | Confirmed live, 2026-07-19 | M | M | After any change to `.env.example` that isn't just documentation, manually apply the same change to the server's real `.env` and re-run `php artisan config:cache` |
 
 ## Getting Started
 
@@ -116,6 +118,13 @@ Already done — see `context/deployment/deploy-plan.md` for the checked-off che
    # frontend assets: Node isn't installed on this account — build locally and copy up
    # (from a machine with Node): npm ci && npm run build && scp -r public/build user@host:~/domains/.../public_html/
    cp -r repo/public/build public_html/build   # if built directly on-box some other way
+
+   # CRITICAL: public_path() (used by @vite()) resolves against repo/public/, not
+   # public_html/, no matter where index.php physically lives — so repo/public/build
+   # must be a symlink into public_html/build, or Laravel will read a stale manifest
+   # forever while the webserver serves the current one (confirmed bug, 2026-07-19,
+   # see risk register + context/foundation/lessons.md):
+   cd repo/public && rm -rf build && ln -s ../../public_html/build build && cd -
 
    $PHP artisan config:cache && $PHP artisan route:cache
    ```

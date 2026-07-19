@@ -15,6 +15,8 @@ The original plan symlinked `public_html` → `repo/public` (standard Laravel-on
   - `.htaccess` — copied once from `repo/public/.htaccess` (Laravel's default rewrite rules). Also not touched by routine deploys.
   - `build/` — Vite output, **overwritten on every deploy** (this is the only part of `public_html` the CI pipeline touches).
 
+**Confirmed gotcha #3 (2026-07-19, hit during S-01/`user-registration-login`)**: Laravel's `public_path()` (used internally by the `@vite()` Blade directive to locate `build/manifest.json`) resolves relative to `repo/public/`, **not** `public_html/`, regardless of where `index.php` physically sits — the framework's base path is fixed by `bootstrap/app.php`'s own location inside `repo/`. Since the CI pipeline only rsyncs built assets to `public_html/build/` (step 4 below), `repo/public/build/` was left containing a stale one-time manifest from before this was ever deployed — Laravel kept reading *that* stale manifest to generate `<link>`/`<script>` tags, while the browser requested files only present under the *current* `public_html/build/`, producing 404s on every CSS/JS asset even though the deploy workflow reported success and the live `public_html/build/manifest.json` was correct. **Fix (one-time, done 2026-07-19)**: `cd ~/domains/wyjazdowicz.cfolks.pl/repo/public && rm -rf build && ln -s ../../public_html/build build` — makes `repo/public/build` a symlink into `public_html/build`, so Laravel and the webserver always agree on the same physical files after every future deploy, with no pipeline change needed. See also `context/foundation/lessons.md`.
+
 ## Jednorazowa konfiguracja ręczna
 
 Checklista wykonana ręcznie na serwerze (wymaga interaktywnego dostępu do panelu DirectAdmin i sesji SSH — nie da się tego zautomatyzować z tej sesji).
@@ -26,6 +28,7 @@ Checklista wykonana ręcznie na serwerze (wymaga interaktywnego dostępu do pane
 - [x] **Usunięto `test.php`** (publiczny `phpinfo()`) z `public_html`.
 - [x] **Pierwszy deploy ręcznie przez SSH** — wykonany. `git clone`, `composer install` (pod `/opt/alt/php85/usr/bin/php`), frontend zbudowany lokalnie (Node niedostępny na koncie hostingowym) i wgrany przez `scp`, `.env` skonfigurowany (z poprawką `DB_HOST=localhost`), `migrate --force` przeszedł, `public_html` przebudowany jako prawdziwy katalog z hand-patched `index.php` (patrz "Webroot layout"), cache produkcyjny odpalony.
 - [x] **Weryfikacja**: `https://wyjazdowicz.cfolks.pl/` zwraca HTTP 200 i serwuje Laravela (potwierdzone `curl` + zawartość strony).
+- [x] **Symlink `repo/public/build` → `public_html/build`** (2026-07-19, patrz "Confirmed gotcha #3" w sekcji "Webroot layout" wyżej) — bez tego Laravel czyta martwy, nigdy nieaktualizowany manifest Vite i strona 404-uje na CSS/JS mimo zielonego deployu.
 
 Jednorazowa konfiguracja **zakończona**. Automatyczny deploy poniżej zadziała od następnego `git push`/merge do `master` — nie był jeszcze przetestowany end-to-end (pierwszy deploy poszedł ręcznie, żeby zweryfikować layout przed automatyzacją).
 
