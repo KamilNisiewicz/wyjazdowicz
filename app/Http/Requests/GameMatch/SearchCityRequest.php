@@ -20,8 +20,8 @@ class SearchCityRequest extends FormRequest
             'opponent' => ['required', 'string', 'max:255'],
             'played_on' => ['required', 'date', 'before_or_equal:today'],
             'venue' => ['required', 'in:home,away'],
-            'goals_for' => ['required', 'integer', 'min:0'],
-            'goals_against' => ['required', 'integer', 'min:0'],
+            'goals_for' => ['required', 'integer', 'min:0', 'max:255'],
+            'goals_against' => ['required', 'integer', 'min:0', 'max:255'],
             'city' => ['required_if:venue,away', 'nullable', 'string', 'max:255'],
         ];
     }

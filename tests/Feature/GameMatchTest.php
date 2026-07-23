@@ -30,6 +30,8 @@ class GameMatchTest extends TestCase
 
     public function test_home_match_is_created_immediately_without_calling_nominatim(): void
     {
+        Http::fake();
+
         $user = User::factory()->create();
         Team::factory()->for($user)->create([
             'home_city' => 'Warszawa, Polska',
@@ -52,6 +54,7 @@ class GameMatchTest extends TestCase
             'city' => 'Warszawa, Polska',
             'distance_km' => null,
         ]);
+        Http::assertNothingSent();
     }
 
     public function test_away_match_search_shows_candidates_from_nominatim(): void
@@ -123,6 +126,28 @@ class GameMatchTest extends TestCase
             'played_on' => now()->toDateString(),
             'venue' => 'away',
             'city' => 'asdkjaslkdjaslkdj',
+            'goals_for' => 0,
+            'goals_against' => 0,
+        ]);
+
+        $response->assertSessionHasErrors('city');
+        $this->assertDatabaseCount('game_matches', 0);
+    }
+
+    public function test_away_match_search_shows_validation_error_when_nominatim_fails(): void
+    {
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => Http::response(null, 500),
+        ]);
+
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->post('/matches/search', [
+            'opponent' => 'Wisła Kraków',
+            'played_on' => now()->toDateString(),
+            'venue' => 'away',
+            'city' => 'Kraków',
             'goals_for' => 0,
             'goals_against' => 0,
         ]);

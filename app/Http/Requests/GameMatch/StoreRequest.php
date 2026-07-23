@@ -20,8 +20,8 @@ class StoreRequest extends FormRequest
         return [
             'opponent' => ['required', 'string', 'max:255'],
             'played_on' => ['required', 'date', 'before_or_equal:today'],
-            'goals_for' => ['required', 'integer', 'min:0'],
-            'goals_against' => ['required', 'integer', 'min:0'],
+            'goals_for' => ['required', 'integer', 'min:0', 'max:255'],
+            'goals_against' => ['required', 'integer', 'min:0', 'max:255'],
             'candidate' => ['required', 'integer', Rule::in(array_keys($this->input('candidates', [])))],
             'candidates' => ['required', 'array', 'min:1'],
             'candidates.*.display_name' => ['required', 'string'],
