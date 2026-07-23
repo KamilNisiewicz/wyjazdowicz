@@ -312,29 +312,29 @@ Nowa tabela, brak istniejących danych do migracji. `foreignId('user_id')->const
 
 #### Automatyczne
 
-- [x] 1.1 Migracja stosuje się czysto: php artisan migrate --force na świeżej bazie SQLite
-- [x] 1.2 Testy jednostkowe przechodzą: php artisan test tests/Unit/DistanceCalculatorTest.php
-- [x] 1.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 1.1 Migracja stosuje się czysto: php artisan migrate --force na świeżej bazie SQLite — 694e013
+- [x] 1.2 Testy jednostkowe przechodzą: php artisan test tests/Unit/DistanceCalculatorTest.php — 694e013
+- [x] 1.3 ./vendor/bin/pint --test nie zgłasza błędów formatowania — 694e013
 
 #### Ręczne
 
-- [x] 1.4 php artisan tinker: DistanceCalculator->kilometersBetween dla Warszawa-Kraków zwraca ok. 250-260 km
+- [x] 1.4 php artisan tinker: DistanceCalculator->kilometersBetween dla Warszawa-Kraków zwraca ok. 250-260 km — 694e013
 
 ### Faza 2: Formularz dodawania meczu
 
 #### Automatyczne
 
-- [ ] 2.1 Pełny zestaw testów przechodzi: php artisan test
-- [ ] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
-- [ ] 2.3 php artisan route:list pokazuje trasy matches.index, matches.create, matches.search, matches.store
+- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test
+- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 2.3 php artisan route:list pokazuje trasy matches.index, matches.create, matches.search, matches.store
 
 #### Ręczne
 
-- [ ] 2.4 Mecz domowy zapisuje się od razu, bez pytania o miejscowość, dystans pusty
-- [ ] 2.5 Mecz wyjazdowy z realną miejscowością: kandydaci z prawdziwego Nominatim, zapis z dystansem > 0
-- [ ] 2.6 Nieistniejąca nazwa miejscowości przy wyjeździe: czytelny błąd, nic nie zapisane
-- [ ] 2.7 Wejście na /matches/create bez ustawionej drużyny przekierowuje na /team
-- [ ] 2.8 Data w przyszłości: błąd walidacji, nic nie zapisane
+- [x] 2.4 Mecz domowy zapisuje się od razu, bez pytania o miejscowość, dystans pusty
+- [x] 2.5 Mecz wyjazdowy z realną miejscowością: kandydaci z prawdziwego Nominatim, zapis z dystansem > 0
+- [x] 2.6 Nieistniejąca nazwa miejscowości przy wyjeździe: czytelny błąd, nic nie zapisane
+- [x] 2.7 Wejście na /matches/create bez ustawionej drużyny przekierowuje na /team (zweryfikowane automatycznym testem — konto użytkownika miało już ustawioną drużynę)
+- [x] 2.8 Data w przyszłości: błąd walidacji, nic nie zapisane (blokada w przeglądarce + automatyczny test serwerowy)
 
 ### Faza 3: Lista meczów i integracja z nawigacją
 
