@@ -1,10 +1,10 @@
 ---
 change_id: user-registration-login
 title: Rejestracja i logowanie użytkownika
-status: impl_reviewed
+status: archived
 created: 2026-07-19
-updated: 2026-07-19
-archived_at: null
+updated: 2026-07-23
+archived_at: 2026-07-23T15:32:07Z
 ---
 
 ## Notes

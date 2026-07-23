@@ -3,7 +3,7 @@ project: "Wyjazdowicz"
 version: 1
 status: draft
 created: 2026-07-18
-updated: 2026-07-18
+updated: 2026-07-23
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -29,7 +29,7 @@ Kibic piłkarski jeżdżący na mecze wyjazdowe (i chodzący na domowe) po latac
 
 | ID    | ID zmiany                | Wynik (użytkownik może …)                                                   | Wymagania wstępne | Odnośniki PRD               | Status   |
 | ----- | ------------------------- | ---------------------------------------------------------------------------- | ------------------ | ---------------------------- | -------- |
-| S-01  | `user-registration-login` | zarejestrować się i zalogować                                                | —                   | FR-001                       | gotowy   |
+| S-01  | `user-registration-login` | zarejestrować się i zalogować                                                | —                   | FR-001                       | zrobione |
 | S-02  | `team-and-home-profile`   | ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu) | S-01             | FR-002                       | proponowany |
 | S-03  | `add-match-with-distance` | dodać mecz (dom/wyjazd) z auto-obliczonym dystansem, widoczny na liście       | S-02                | FR-003, FR-006, FR-007, US-01 | proponowany |
 | S-04  | `edit-delete-match`       | edytować lub usunąć dodany mecz                                              | S-03                | FR-004, FR-005               | proponowany |
@@ -64,7 +64,7 @@ Brak. Cała funkcjonalność wymagana przez PRD ma bezpośredni, widoczny dla u�
 - **Niewiadome:**
   - Konkretny mechanizm logowania nie jest rozstrzygnięty w PRD ("email+hasło / OAuth / magic link — konkretny mechanizm to decyzja techniczna, poza zakresem PRD", `## Access Control`). Właściciel: użytkownik/zespół. Blokuje: nie — `/10x-plan` może wybrać rozsądny domyślny wybór (np. Laravel Breeze, email+hasło).
 - **Ryzyko:** to fundament dla wszystkiego innego w appce — błąd w izolacji danych między kontami złamałby wymóg prywatności z `## NFR`, ale przy single-user MVP ryzyko praktyczne jest niskie.
-- **Status:** gotowy
+- **Status:** zrobione
 
 ### S-02: Ulubiona drużyna (= lokalizacja "dom")
 
@@ -156,4 +156,4 @@ Obie decyzje są udokumentowane w Niewiadomych S-02/S-03 (oznaczone jako rozwią
 
 ## Zrobione
 
-(Puste — pierwsze wygenerowanie mapy drogowej. `/10x-archive` doda tutaj wpis, gdy zmiana odpowiadająca elementowi mapy drogowej zostanie zarchiwizowana.)
+- **S-01: zarejestrować się i zalogować** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-user-registration-login/`. Lekcja: —.
