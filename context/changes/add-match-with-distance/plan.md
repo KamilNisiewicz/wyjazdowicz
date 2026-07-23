@@ -340,12 +340,12 @@ Nowa tabela, brak istniejących danych do migracji. `foreignId('user_id')->const
 
 #### Automatyczne
 
-- [x] 3.1 Pełny zestaw testów przechodzi: php artisan test
-- [x] 3.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 3.1 Pełny zestaw testów przechodzi: php artisan test — aa5f713
+- [x] 3.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania — aa5f713
 
 #### Ręczne
 
-- [x] 3.3 /matches pokazuje wcześniej dodane mecze, posortowane od najnowszego
-- [x] 3.4 Link "Mecze" w nawigacji działa i podświetla się jako aktywny
-- [x] 3.5 Link z dashboardu prowadzi na /matches
-- [x] 3.6 Świeże konto bez meczów: czytelny pusty stan (konto z ustawioną drużyną, bez meczów — potwierdzone ręcznie + testem automatycznym)
+- [x] 3.3 /matches pokazuje wcześniej dodane mecze, posortowane od najnowszego — aa5f713
+- [x] 3.4 Link "Mecze" w nawigacji działa i podświetla się jako aktywny — aa5f713
+- [x] 3.5 Link z dashboardu prowadzi na /matches — aa5f713
+- [x] 3.6 Świeże konto bez meczów: czytelny pusty stan (konto z ustawioną drużyną, bez meczów — potwierdzone ręcznie + testem automatycznym) — aa5f713
