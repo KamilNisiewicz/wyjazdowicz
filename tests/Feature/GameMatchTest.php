@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\GameMatch;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -148,6 +149,30 @@ class GameMatchTest extends TestCase
 
         $response->assertSessionHasErrors('candidate');
         $this->assertDatabaseCount('game_matches', 0);
+    }
+
+    public function test_index_lists_matches_sorted_by_played_on_descending(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        GameMatch::factory()->for($user)->create(['opponent' => 'Starszy mecz', 'played_on' => '2026-01-01']);
+        GameMatch::factory()->for($user)->create(['opponent' => 'Nowszy mecz', 'played_on' => '2026-06-01']);
+
+        $response = $this->actingAs($user)->get('/matches');
+
+        $response->assertOk();
+        $response->assertSeeInOrder(['Nowszy mecz', 'Starszy mecz']);
+    }
+
+    public function test_index_shows_empty_state_for_fresh_account(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->get('/matches');
+
+        $response->assertOk();
+        $response->assertSee('Nie masz jeszcze żadnych zapisanych meczów');
     }
 
     public function test_played_on_in_future_is_rejected(): void

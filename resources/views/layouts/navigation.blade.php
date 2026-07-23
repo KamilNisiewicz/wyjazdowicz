@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('team.edit')" :active="request()->routeIs('team.*')">
                         {{ __('Drużyna') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('matches.index')" :active="request()->routeIs('matches.*')">
+                        {{ __('Mecze') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -75,6 +78,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('team.edit')" :active="request()->routeIs('team.*')">
                 {{ __('Drużyna') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('matches.index')" :active="request()->routeIs('matches.*')">
+                {{ __('Mecze') }}
             </x-responsive-nav-link>
         </div>
 

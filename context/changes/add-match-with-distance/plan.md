@@ -324,28 +324,28 @@ Nowa tabela, brak istniejących danych do migracji. `foreignId('user_id')->const
 
 #### Automatyczne
 
-- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test
-- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
-- [x] 2.3 php artisan route:list pokazuje trasy matches.index, matches.create, matches.search, matches.store
+- [x] 2.1 Pełny zestaw testów przechodzi: php artisan test — 9eaa7f2
+- [x] 2.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania — 9eaa7f2
+- [x] 2.3 php artisan route:list pokazuje trasy matches.index, matches.create, matches.search, matches.store — 9eaa7f2
 
 #### Ręczne
 
-- [x] 2.4 Mecz domowy zapisuje się od razu, bez pytania o miejscowość, dystans pusty
-- [x] 2.5 Mecz wyjazdowy z realną miejscowością: kandydaci z prawdziwego Nominatim, zapis z dystansem > 0
-- [x] 2.6 Nieistniejąca nazwa miejscowości przy wyjeździe: czytelny błąd, nic nie zapisane
-- [x] 2.7 Wejście na /matches/create bez ustawionej drużyny przekierowuje na /team (zweryfikowane automatycznym testem — konto użytkownika miało już ustawioną drużynę)
-- [x] 2.8 Data w przyszłości: błąd walidacji, nic nie zapisane (blokada w przeglądarce + automatyczny test serwerowy)
+- [x] 2.4 Mecz domowy zapisuje się od razu, bez pytania o miejscowość, dystans pusty — 9eaa7f2
+- [x] 2.5 Mecz wyjazdowy z realną miejscowością: kandydaci z prawdziwego Nominatim, zapis z dystansem > 0 — 9eaa7f2
+- [x] 2.6 Nieistniejąca nazwa miejscowości przy wyjeździe: czytelny błąd, nic nie zapisane — 9eaa7f2
+- [x] 2.7 Wejście na /matches/create bez ustawionej drużyny przekierowuje na /team (zweryfikowane automatycznym testem — konto użytkownika miało już ustawioną drużynę) — 9eaa7f2
+- [x] 2.8 Data w przyszłości: błąd walidacji, nic nie zapisane (blokada w przeglądarce + automatyczny test serwerowy) — 9eaa7f2
 
 ### Faza 3: Lista meczów i integracja z nawigacją
 
 #### Automatyczne
 
-- [ ] 3.1 Pełny zestaw testów przechodzi: php artisan test
-- [ ] 3.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
+- [x] 3.1 Pełny zestaw testów przechodzi: php artisan test
+- [x] 3.2 ./vendor/bin/pint --test nie zgłasza błędów formatowania
 
 #### Ręczne
 
-- [ ] 3.3 /matches pokazuje wcześniej dodane mecze, posortowane od najnowszego
-- [ ] 3.4 Link "Mecze" w nawigacji działa i podświetla się jako aktywny
-- [ ] 3.5 Link z dashboardu prowadzi na /matches
-- [ ] 3.6 Świeże konto bez meczów: czytelny pusty stan
+- [x] 3.3 /matches pokazuje wcześniej dodane mecze, posortowane od najnowszego
+- [x] 3.4 Link "Mecze" w nawigacji działa i podświetla się jako aktywny
+- [x] 3.5 Link z dashboardu prowadzi na /matches
+- [x] 3.6 Świeże konto bez meczów: czytelny pusty stan (konto z ustawioną drużyną, bez meczów — potwierdzone ręcznie + testem automatycznym)

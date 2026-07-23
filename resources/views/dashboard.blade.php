@@ -10,6 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    <a href="{{ route('matches.index') }}" class="ms-2 underline">{{ __('Zobacz mecze') }}</a>
                 </div>
             </div>
         </div>
