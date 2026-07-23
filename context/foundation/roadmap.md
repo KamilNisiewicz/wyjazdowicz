@@ -30,7 +30,7 @@ Kibic piłkarski jeżdżący na mecze wyjazdowe (i chodzący na domowe) po latac
 | ID    | ID zmiany                | Wynik (użytkownik może …)                                                   | Wymagania wstępne | Odnośniki PRD               | Status   |
 | ----- | ------------------------- | ---------------------------------------------------------------------------- | ------------------ | ---------------------------- | -------- |
 | S-01  | `user-registration-login` | zarejestrować się i zalogować                                                | —                   | FR-001                       | zrobione |
-| S-02  | `team-and-home-profile`   | ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu) | S-01             | FR-002                       | proponowany |
+| S-02  | `team-and-home-profile`   | ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu) | S-01             | FR-002                       | zrobione |
 | S-03  | `add-match-with-distance` | dodać mecz (dom/wyjazd) z auto-obliczonym dystansem, widoczny na liście       | S-02                | FR-003, FR-006, FR-007, US-01 | proponowany |
 | S-04  | `edit-delete-match`       | edytować lub usunąć dodany mecz                                              | S-03                | FR-004, FR-005               | proponowany |
 | S-05  | `stats-dashboard`         | zobaczyć panel statystyk (bilans, %, passa, wskaźnik "pechowy kibic")        | S-03                | FR-008, FR-009, FR-010, FR-011, US-01 | proponowany |
@@ -76,7 +76,7 @@ Brak. Cała funkcjonalność wymagana przez PRD ma bezpośredni, widoczny dla u�
 - **Blokady:** —
 - **Niewiadome:** — (rozwiązane: brak osobnego pola na adres — miasto drużyny = "dom"; miasto jest tekstem wpisywanym ręcznie przez użytkownika, geokodowanym tym samym mechanizmem co miasta meczów, patrz S-03)
 - **Ryzyko:** literówka lub niejednoznaczna nazwa miasta drużyny przy geokodowaniu zepsułaby dystans dla *wszystkich* meczów wyjazdowych na raz (nie tylko jednego) — warto pokazać użytkownikowi wynik geokodowania (np. potwierdzenie znalezionego miasta) przy zapisie.
-- **Status:** proponowany
+- **Status:** zrobione
 
 ### S-03: Dodanie meczu z automatycznym obliczeniem dystansu
 
@@ -157,3 +157,4 @@ Obie decyzje są udokumentowane w Niewiadomych S-02/S-03 (oznaczone jako rozwią
 ## Zrobione
 
 - **S-01: zarejestrować się i zalogować** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-user-registration-login/`. Lekcja: —.
+- **S-02: ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu)** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-team-and-home-profile/`. Lekcja: —.
