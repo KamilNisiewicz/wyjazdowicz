@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameMatchController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'team.set'])->group(function () {
+    Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
+
     Route::get('/matches', [GameMatchController::class, 'index'])->name('matches.index');
     Route::get('/matches/create', [GameMatchController::class, 'create'])->name('matches.create');
     Route::post('/matches/search', [GameMatchController::class, 'search'])->name('matches.search');
