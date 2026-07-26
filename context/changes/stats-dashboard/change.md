@@ -1,7 +1,7 @@
 ---
 change_id: stats-dashboard
 title: Panel statystyk
-status: implementing
+status: implemented
 created: 2026-07-26
 updated: 2026-07-26
 archived_at: null
