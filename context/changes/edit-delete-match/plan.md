@@ -108,6 +108,12 @@ Dodaje widok edycji i akcje „Edytuj”/„Usuń” w wierszach listy meczów, 
 
 **Kontrakt**: Nagłówek `<th>{{ __('Akcje') }}</th>` po istniejącej kolumnie „Dystans” (linia 34); komórka per wiersz z linkiem `matches.edit` + `x-danger-button` (`x-on:click.prevent="$dispatch('open-modal', 'confirm-match-deletion-{{ $match->id }}')"`) + `<x-modal :name="'confirm-match-deletion-'.$match->id">` zawierający `<form method="post" action="{{ route('matches.destroy', $match) }}">` z `@csrf` `@method('delete')`. Nazwa modala musi być unikalna per wiersz (`{{ $match->id }}` w nazwie), inaczej wszystkie modały na stronie współdzielą stan otwarcia. Dodać też obsługę `session('status') === 'match-updated'` / `'match-deleted'` obok istniejącego bloku `match-created` (linie 10-14) dla komunikatów potwierdzających.
 
+> **Dodatek po ręcznej weryfikacji (F1, `/10x-impl-review`, 2026-07-26)**: Powyższy kontrakt zakładał jedną tabelę z dodaną kolumną. Ręczne testowanie na wąskim viewporcie ujawniło dwa realne bugi, które zmieniły finalną strukturę:
+> 1. Tabela z 6 kolumnami wychodziła poza ekran telefonu bez własnego scrolla — naprawione owinięciem w `<div class="overflow-x-auto">`, a docelowo przebudowane na osobny układ.
+> 2. Po przebudowie na `hidden sm:block` (desktop) / `sm:hidden` (mobile karty), desktop przestał w ogóle pokazywać mecze — przyczyna: `sm:block` nigdy nie zostało wkompilowane do statycznego builda Tailwind CSS tego projektu (`npm run build` uruchamiany raz, nie live przez Vite, bo systemowy Node 18 nie obsługuje Vite/rolldown — patrz `START-KONTEKST.md`). Naprawione przebudowaniem assetów Node'em 20 (już dostępnym przez `nvm`, tylko nieaktywnym w domyślnym PATH). **Każda przyszła zmiana wprowadzająca nową kombinację klas Tailwind musi rebuildować CSS Node'em 20, albo klasa po prostu nie zadziała mimo poprawnego kodu Blade.**
+>
+> Finalna struktura `resources/views/matches/index.blade.php` to trzy bloki zamiast jednej tabeli: lista kart (`sm:hidden`) dla mobile, tabela (`hidden sm:block`) od `sm:` w górę, i wspólna pętla `@foreach` renderująca `<x-modal>` raz na mecz — wyciągnięta poza oba widoki, żeby nie była ukryta przez `display:none` przodka niezależnie od tego, z którego widoku (karta czy tabela) użytkownik ją wyzwoli. Oba wyzwalacze (mobile i desktop) dispatchują tę samą nazwę zdarzenia `confirm-match-deletion-{{ $match->id }}`, więc otwierają ten sam, jedyny modal danego meczu — brak duplikacji, brak kolizji ID.
+
 ### Kryteria sukcesu:
 
 #### Weryfikacja automatyczna:

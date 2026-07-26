@@ -99,7 +99,7 @@ class GameMatchController extends Controller
     public function update(UpdateRequest $request, int $match): RedirectResponse
     {
         $gameMatch = $request->user()->gameMatches()->findOrFail($match);
-        $gameMatch->update($request->validated());
+        $gameMatch->update($request->safe()->only(['opponent', 'played_on', 'goals_for', 'goals_against']));
 
         return redirect()->route('matches.index')->with('status', 'match-updated');
     }

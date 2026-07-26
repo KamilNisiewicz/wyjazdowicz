@@ -47,12 +47,11 @@
                                 </div>
                                 <div class="mt-3 flex items-center gap-4">
                                     <a href="{{ route('matches.edit', $match) }}" class="text-sm text-gray-700 underline">{{ __('Edytuj') }}</a>
-                                    <button
+                                    <x-danger-button
                                         type="button"
                                         x-data=""
                                         x-on:click.prevent="$dispatch('open-modal', 'confirm-match-deletion-{{ $match->id }}')"
-                                        class="text-sm text-red-600 underline"
-                                    >{{ __('Usuń') }}</button>
+                                    >{{ __('Usuń') }}</x-danger-button>
                                 </div>
                             </div>
                         @endforeach
@@ -82,12 +81,11 @@
                                         <td class="py-2 pr-4">
                                             <div class="flex items-center gap-3">
                                                 <a href="{{ route('matches.edit', $match) }}" class="text-sm text-gray-700 underline">{{ __('Edytuj') }}</a>
-                                                <button
+                                                <x-danger-button
                                                     type="button"
                                                     x-data=""
                                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-match-deletion-{{ $match->id }}')"
-                                                    class="text-sm text-red-600 underline"
-                                                >{{ __('Usuń') }}</button>
+                                                >{{ __('Usuń') }}</x-danger-button>
                                             </div>
                                         </td>
                                     </tr>
