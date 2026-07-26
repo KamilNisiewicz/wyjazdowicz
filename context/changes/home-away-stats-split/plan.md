@@ -317,15 +317,15 @@ Nie dotyczy — brak zmian w schemacie bazy danych, brak zmian w
 
 #### Automatyczne
 
-- [x] 1.1 `php artisan test --filter=StatsTest` przechodzi
-- [x] 1.2 `php artisan test` (pełna suita) przechodzi bez regresji
-- [x] 1.3 `npm run build` (Node 20) kompiluje i wkompilowuje nowe klasy Tailwind
+- [x] 1.1 `php artisan test --filter=StatsTest` przechodzi — adefc67
+- [x] 1.2 `php artisan test` (pełna suita) przechodzi bez regresji — adefc67
+- [x] 1.3 `npm run build` (Node 20) kompiluje i wkompilowuje nowe klasy Tailwind — adefc67
 
 #### Ręczne
 
-- [x] 1.4 Trzy zakładki, przełączanie działa, "Ogółem" domyślnie aktywna
-- [x] 1.5 Zakładka "Dom" bez kafelka dystansu, "Ogółem"/"Wyjazd" z kafelkiem
-- [x] 1.6 Pusta podkolekcja pokazuje komunikat, nie zera
-- [x] 1.7 Konto bez żadnych meczów — brak regresji względem S-05 (brak zakładek)
-- [x] 1.8 Wąski viewport — zakładki nie wychodzą poza ekran
-- [x] 1.9 Pechowy kibic liczony niezależnie per zakładka
+- [x] 1.4 Trzy zakładki, przełączanie działa, "Ogółem" domyślnie aktywna — adefc67
+- [x] 1.5 Zakładka "Dom" bez kafelka dystansu, "Ogółem"/"Wyjazd" z kafelkiem — adefc67
+- [x] 1.6 Pusta podkolekcja pokazuje komunikat, nie zera — adefc67
+- [x] 1.7 Konto bez żadnych meczów — brak regresji względem S-05 (brak zakładek) — adefc67
+- [x] 1.8 Wąski viewport — zakładki nie wychodzą poza ekran — adefc67
+- [x] 1.9 Pechowy kibic liczony niezależnie per zakładka — adefc67
