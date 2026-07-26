@@ -1,10 +1,10 @@
 ---
 change_id: stats-dashboard
 title: Panel statystyk
-status: impl_reviewed
+status: archived
 created: 2026-07-26
 updated: 2026-07-26
-archived_at: null
+archived_at: 2026-07-26T13:13:22Z
 ---
 
 ## Notes
