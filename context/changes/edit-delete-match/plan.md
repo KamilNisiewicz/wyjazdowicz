@@ -178,11 +178,11 @@ Brak nowej migracji — żadna kolumna się nie zmienia, edycja dotyczy tylko is
 
 #### Automatyczne
 
-- [x] 2.1 Testy feature dla widoku edycji i akcji na liście przechodzą
+- [x] 2.1 Testy feature dla widoku edycji i akcji na liście przechodzą — 948b5b2
 
 #### Ręczne
 
-- [x] 2.2 Edycja meczu w przeglądarce działa i pokazuje komunikat potwierdzający
-- [x] 2.3 Usuwanie meczu przez modal (potwierdzenie i anulowanie) działa w przeglądarce
-- [x] 2.4 Próba edycji/usunięcia cudzego meczu przez URL zwraca 404
-- [x] 2.5 Kolumna „Akcje” jest używalna na wąskim viewporcie (telefon)
+- [x] 2.2 Edycja meczu w przeglądarce działa i pokazuje komunikat potwierdzający — 948b5b2
+- [x] 2.3 Usuwanie meczu przez modal (potwierdzenie i anulowanie) działa w przeglądarce — 948b5b2
+- [x] 2.4 Próba edycji/usunięcia cudzego meczu przez URL zwraca 404 — 948b5b2
+- [x] 2.5 Kolumna „Akcje” jest używalna na wąskim viewporcie (telefon) — 948b5b2

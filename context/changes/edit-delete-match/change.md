@@ -1,7 +1,7 @@
 ---
 change_id: edit-delete-match
 title: Edit and delete match
-status: implementing
+status: implemented
 created: 2026-07-26
 updated: 2026-07-26
 archived_at: null
