@@ -15,8 +15,17 @@ class StatsController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        if ($matches->isEmpty()) {
+            return view('stats.index', ['stats' => null]);
+        }
+
+        $homeMatches = $matches->where('venue', 'home');
+        $awayMatches = $matches->where('venue', 'away');
+
         return view('stats.index', [
-            'stats' => $matches->isEmpty() ? null : $calculator->forMatches($matches),
+            'stats' => $calculator->forMatches($matches),
+            'homeStats' => $homeMatches->isEmpty() ? null : $calculator->forMatches($homeMatches),
+            'awayStats' => $awayMatches->isEmpty() ? null : $calculator->forMatches($awayMatches),
         ]);
     }
 }

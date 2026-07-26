@@ -181,4 +181,93 @@ class StatsTest extends TestCase
         $this->assertSame(1, $stats['wins']);
         $this->assertFalse($stats['is_unlucky_fan']);
     }
+
+    public function test_stats_page_shows_three_tabs_with_independent_balances(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        // Home: 2 wins, 1 loss -> 67%
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 2, 'goals_against' => 0]);
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 3, 'goals_against' => 1]);
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 0, 'goals_against' => 1]);
+
+        // Away: 1 win, 2 losses -> 33%
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 100, 'goals_for' => 2, 'goals_against' => 0]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 50, 'goals_for' => 0, 'goals_against' => 1]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 75, 'goals_for' => 0, 'goals_against' => 2]);
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        $response->assertSee(__('Ogółem'));
+        $response->assertSee(__('Dom'));
+        $response->assertSee(__('Wyjazd'));
+        $response->assertSee('67%'); // home
+        $response->assertSee('33%'); // away
+        $response->assertSee('50%'); // overall (3 wins, 3 losses)
+    }
+
+    public function test_home_tab_omits_distance_tile_while_overall_and_away_show_it(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 200]);
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        $this->assertSame(2, substr_count($response->getContent(), __('Łączny dystans')));
+    }
+
+    public function test_home_tab_shows_empty_message_when_user_has_no_home_matches(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 150]);
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        $response->assertSee(__('Brak zapisanych meczów domowych.'));
+    }
+
+    public function test_away_tab_shows_empty_message_when_user_has_no_away_matches(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null]);
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        $response->assertSee(__('Brak zapisanych meczów wyjazdowych.'));
+    }
+
+    public function test_unlucky_fan_tile_is_counted_independently_per_tab(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        // Home: 3 losses -> unlucky
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 0, 'goals_against' => 1]);
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 0, 'goals_against' => 1]);
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 0, 'goals_against' => 1]);
+
+        // Away: 3 wins -> not unlucky
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 10, 'goals_for' => 1, 'goals_against' => 0]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 10, 'goals_for' => 1, 'goals_against' => 0]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 10, 'goals_for' => 1, 'goals_against' => 0]);
+
+        // Overall: 3 wins, 3 losses -> losses not strictly greater than wins -> not unlucky
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        $this->assertSame(1, substr_count($response->getContent(), 'border-red-200'));
+    }
 }
