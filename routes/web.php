@@ -28,6 +28,9 @@ Route::middleware(['auth', 'team.set'])->group(function () {
     Route::get('/matches/create', [GameMatchController::class, 'create'])->name('matches.create');
     Route::post('/matches/search', [GameMatchController::class, 'search'])->name('matches.search');
     Route::post('/matches', [GameMatchController::class, 'store'])->name('matches.store');
+    Route::get('/matches/{match}/edit', [GameMatchController::class, 'edit'])->name('matches.edit');
+    Route::patch('/matches/{match}', [GameMatchController::class, 'update'])->name('matches.update');
+    Route::delete('/matches/{match}', [GameMatchController::class, 'destroy'])->name('matches.destroy');
 });
 
 require __DIR__.'/auth.php';

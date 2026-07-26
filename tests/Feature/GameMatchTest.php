@@ -216,4 +216,116 @@ class GameMatchTest extends TestCase
         $response->assertSessionHasErrors('played_on');
         $this->assertDatabaseCount('game_matches', 0);
     }
+
+    public function test_update_changes_opponent_date_and_score(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create([
+            'opponent' => 'Stary przeciwnik',
+            'goals_for' => 0,
+            'goals_against' => 0,
+        ]);
+
+        $response = $this->actingAs($user)->patch("/matches/{$match->id}", [
+            'opponent' => 'Nowy przeciwnik',
+            'played_on' => now()->toDateString(),
+            'goals_for' => 3,
+            'goals_against' => 1,
+        ]);
+
+        $response->assertRedirect(route('matches.index'));
+        $this->assertDatabaseHas('game_matches', [
+            'id' => $match->id,
+            'opponent' => 'Nowy przeciwnik',
+            'goals_for' => 3,
+            'goals_against' => 1,
+        ]);
+    }
+
+    public function test_update_rejects_negative_score_and_leaves_match_unchanged(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create(['goals_for' => 2, 'goals_against' => 2]);
+
+        $response = $this->actingAs($user)->patch("/matches/{$match->id}", [
+            'opponent' => $match->opponent,
+            'played_on' => $match->played_on->toDateString(),
+            'goals_for' => -1,
+            'goals_against' => 2,
+        ]);
+
+        $response->assertSessionHasErrors('goals_for');
+        $this->assertDatabaseHas('game_matches', [
+            'id' => $match->id,
+            'goals_for' => 2,
+            'goals_against' => 2,
+        ]);
+    }
+
+    public function test_update_rejects_played_on_in_future(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->patch("/matches/{$match->id}", [
+            'opponent' => $match->opponent,
+            'played_on' => now()->addDay()->toDateString(),
+            'goals_for' => $match->goals_for,
+            'goals_against' => $match->goals_against,
+        ]);
+
+        $response->assertSessionHasErrors('played_on');
+    }
+
+    public function test_destroy_removes_match(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->delete("/matches/{$match->id}");
+
+        $response->assertRedirect(route('matches.index'));
+        $this->assertDatabaseMissing('game_matches', ['id' => $match->id]);
+    }
+
+    public function test_user_cannot_edit_view_or_delete_another_users_match(): void
+    {
+        $owner = User::factory()->create();
+        Team::factory()->for($owner)->create();
+        $match = GameMatch::factory()->for($owner)->create();
+
+        $intruder = User::factory()->create();
+        Team::factory()->for($intruder)->create();
+
+        $this->actingAs($intruder)->get("/matches/{$match->id}/edit")->assertNotFound();
+
+        $this->actingAs($intruder)->patch("/matches/{$match->id}", [
+            'opponent' => 'Podmieniony przeciwnik',
+            'played_on' => now()->toDateString(),
+            'goals_for' => 9,
+            'goals_against' => 9,
+        ])->assertNotFound();
+
+        $this->actingAs($intruder)->delete("/matches/{$match->id}")->assertNotFound();
+
+        $this->assertDatabaseHas('game_matches', [
+            'id' => $match->id,
+            'opponent' => $match->opponent,
+        ]);
+    }
+
+    public function test_guest_is_redirected_to_login_for_edit_update_destroy(): void
+    {
+        $owner = User::factory()->create();
+        Team::factory()->for($owner)->create();
+        $match = GameMatch::factory()->for($owner)->create();
+
+        $this->get("/matches/{$match->id}/edit")->assertRedirect('/login');
+        $this->patch("/matches/{$match->id}", [])->assertRedirect('/login');
+        $this->delete("/matches/{$match->id}")->assertRedirect('/login');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GameMatch\SearchCityRequest;
 use App\Http\Requests\GameMatch\StoreRequest;
+use App\Http\Requests\GameMatch\UpdateRequest;
 use App\Services\DistanceCalculator;
 use App\Services\NominatimGeocoder;
 use Illuminate\Http\RedirectResponse;
@@ -86,5 +87,28 @@ class GameMatchController extends Controller
         ]);
 
         return redirect()->route('matches.index')->with('status', 'match-created');
+    }
+
+    public function edit(Request $request, int $match): View
+    {
+        return view('matches.edit', [
+            'match' => $request->user()->gameMatches()->findOrFail($match),
+        ]);
+    }
+
+    public function update(UpdateRequest $request, int $match): RedirectResponse
+    {
+        $gameMatch = $request->user()->gameMatches()->findOrFail($match);
+        $gameMatch->update($request->validated());
+
+        return redirect()->route('matches.index')->with('status', 'match-updated');
+    }
+
+    public function destroy(Request $request, int $match): RedirectResponse
+    {
+        $gameMatch = $request->user()->gameMatches()->findOrFail($match);
+        $gameMatch->delete();
+
+        return redirect()->route('matches.index')->with('status', 'match-deleted');
     }
 }
