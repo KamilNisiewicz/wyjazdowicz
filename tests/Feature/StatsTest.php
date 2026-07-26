@@ -270,4 +270,25 @@ class StatsTest extends TestCase
         $response->assertOk();
         $this->assertSame(1, substr_count($response->getContent(), 'border-red-200'));
     }
+
+    public function test_another_users_home_and_away_matches_do_not_affect_my_tabs(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        GameMatch::factory()->for($user)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 1, 'goals_against' => 0]);
+        GameMatch::factory()->for($user)->create(['venue' => 'away', 'distance_km' => 100, 'goals_for' => 1, 'goals_against' => 0]);
+
+        $other = User::factory()->create();
+        Team::factory()->for($other)->create();
+        GameMatch::factory()->for($other)->create(['venue' => 'home', 'distance_km' => null, 'goals_for' => 0, 'goals_against' => 5]);
+        GameMatch::factory()->for($other)->create(['venue' => 'away', 'distance_km' => 999, 'goals_for' => 0, 'goals_against' => 5]);
+
+        $response = $this->actingAs($user)->get('/stats');
+
+        $response->assertOk();
+        // Both my venues have exactly one win each -> 100% in every tab; the
+        // other user's losses and 999km would drag these numbers down if leaked.
+        $this->assertSame(3, substr_count($response->getContent(), '100%'));
+        $response->assertDontSee('999 km');
+    }
 }
