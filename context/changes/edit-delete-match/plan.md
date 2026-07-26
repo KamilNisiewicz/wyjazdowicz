@@ -170,19 +170,19 @@ Brak nowej migracji — żadna kolumna się nie zmienia, edycja dotyczy tylko is
 
 #### Automatyczne
 
-- [x] 1.1 `php artisan route:list --name=matches` pokazuje nowe trasy
-- [x] 1.2 Testy feature edit/update/destroy + IDOR + walidacja przechodzą
-- [x] 1.3 Linter/formatter przechodzi bez zmian stylu
+- [x] 1.1 `php artisan route:list --name=matches` pokazuje nowe trasy — 628f135
+- [x] 1.2 Testy feature edit/update/destroy + IDOR + walidacja przechodzą — 628f135
+- [x] 1.3 Linter/formatter przechodzi bez zmian stylu — 628f135
 
 ### Faza 2: UI — formularz edycji i akcje na liście
 
 #### Automatyczne
 
-- [ ] 2.1 Testy feature dla widoku edycji i akcji na liście przechodzą
+- [x] 2.1 Testy feature dla widoku edycji i akcji na liście przechodzą
 
 #### Ręczne
 
-- [ ] 2.2 Edycja meczu w przeglądarce działa i pokazuje komunikat potwierdzający
-- [ ] 2.3 Usuwanie meczu przez modal (potwierdzenie i anulowanie) działa w przeglądarce
-- [ ] 2.4 Próba edycji/usunięcia cudzego meczu przez URL zwraca 404
-- [ ] 2.5 Kolumna „Akcje” jest używalna na wąskim viewporcie (telefon)
+- [x] 2.2 Edycja meczu w przeglądarce działa i pokazuje komunikat potwierdzający
+- [x] 2.3 Usuwanie meczu przez modal (potwierdzenie i anulowanie) działa w przeglądarce
+- [x] 2.4 Próba edycji/usunięcia cudzego meczu przez URL zwraca 404
+- [x] 2.5 Kolumna „Akcje” jest używalna na wąskim viewporcie (telefon)

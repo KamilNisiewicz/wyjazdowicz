@@ -217,6 +217,31 @@ class GameMatchTest extends TestCase
         $this->assertDatabaseCount('game_matches', 0);
     }
 
+    public function test_edit_form_shows_prefilled_match_data(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create(['opponent' => 'Śląsk Wrocław']);
+
+        $response = $this->actingAs($user)->get("/matches/{$match->id}/edit");
+
+        $response->assertOk();
+        $response->assertSee('Śląsk Wrocław');
+    }
+
+    public function test_index_shows_edit_link_and_delete_form_per_match(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+        $match = GameMatch::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->get('/matches');
+
+        $response->assertOk();
+        $response->assertSee(route('matches.edit', $match), false);
+        $response->assertSee(route('matches.destroy', $match), false);
+    }
+
     public function test_update_changes_opponent_date_and_score(): void
     {
         $user = User::factory()->create();
