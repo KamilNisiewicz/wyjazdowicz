@@ -11,6 +11,7 @@
                 <div class="p-6 text-gray-900">
                     {{ __('Jesteś zalogowany!') }}
                     <a href="{{ route('matches.index') }}" class="ms-2 underline">{{ __('Zobacz mecze') }}</a>
+                    <a href="{{ route('stats.index') }}" class="ms-2 underline">{{ __('Zobacz statystyki') }}</a>
                 </div>
             </div>
         </div>

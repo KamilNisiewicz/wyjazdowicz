@@ -355,24 +355,24 @@ Nie dotyczy — brak zmian w schemacie bazy danych.
 
 #### Automatyczne
 
-- [x] 1.1 `php artisan test --filter=StatsTest` przechodzi
-- [x] 1.2 `php artisan test` (pełna suita) przechodzi bez regresji
+- [x] 1.1 `php artisan test --filter=StatsTest` przechodzi — 07906bc
+- [x] 1.2 `php artisan test` (pełna suita) przechodzi bez regresji — 07906bc
 
 #### Ręczne
 
-- [x] 1.3 Ręczna weryfikacja surowych danych `/stats` zgodnych z ręcznym przeliczeniem
+- [x] 1.3 Ręczna weryfikacja surowych danych `/stats` zgodnych z ręcznym przeliczeniem — 07906bc
 
 ### Faza 2: UI — widok /stats, wykres W/D/L, nawigacja
 
 #### Automatyczne
 
-- [ ] 2.1 `php artisan test` przechodzi bez regresji
-- [ ] 2.2 `npm run build` (Node 20) kompiluje i wkompilowuje nowe klasy Tailwind
+- [x] 2.1 `php artisan test` przechodzi bez regresji
+- [x] 2.2 `npm run build` (Node 20) kompiluje i wkompilowuje nowe klasy Tailwind
 
 #### Ręczne
 
-- [ ] 2.3 Link "Statystyki" widoczny i aktywny w nawigacji desktop i mobile
-- [ ] 2.4 Wykres W/D/L poprawny w light i dark mode
-- [ ] 2.5 Pusty stan pokazuje CTA, nie zera
-- [ ] 2.6 Kafelek "Pechowy kibic" pojawia się/znika poprawnie
-- [ ] 2.7 Link z dashboardu do `/stats` działa
+- [x] 2.3 Link "Statystyki" widoczny i aktywny w nawigacji desktop i mobile
+- [x] 2.4 Wykres W/D/L poprawny w light i dark mode
+- [x] 2.5 Pusty stan pokazuje CTA, nie zera
+- [x] 2.6 Kafelek "Pechowy kibic" pojawia się/znika poprawnie
+- [x] 2.7 Link z dashboardu do `/stats` działa
