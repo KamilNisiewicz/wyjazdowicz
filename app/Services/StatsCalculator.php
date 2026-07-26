@@ -12,6 +12,10 @@ class StatsCalculator
      */
     public function forMatches(Collection $matches): array
     {
+        if ($matches->isEmpty()) {
+            throw new \InvalidArgumentException('StatsCalculator::forMatches() requires a non-empty collection.');
+        }
+
         $wins = $matches->filter(fn ($match) => $match->result === 'win')->count();
         $draws = $matches->filter(fn ($match) => $match->result === 'draw')->count();
         $losses = $matches->filter(fn ($match) => $match->result === 'loss')->count();
