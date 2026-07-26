@@ -28,7 +28,7 @@
 - **Lokalizacja**: tests/Feature/StatsTest.php
 - **Szczegóły**: Istniejący `test_another_users_matches_do_not_affect_stats` (z S-05) pokrywa izolację właściciela tylko na poziomie bezpośredniego wywołania `StatsCalculator::forMatches()` na kolekcji ogólnej, nie przez pełny request HTTP i nie osobno dla zakładek Dom/Wyjazd. Mechanizm izolacji (`$request->user()->gameMatches()`) się nie zmienił w tej fazie, więc ryzyko jest praktycznie zerowe — filtr `venue` działa na kolekcji już zawężonej do właściciela — ale brak jawnego testu regresyjnego na ten konkretny, nowy przypadek (cudze mecze domowe nie wpływają na moją zakładkę "Dom").
 - **Poprawka**: Opcjonalnie dodać test HTTP: drugi użytkownik z własnymi meczami domowymi/wyjazdowymi, potwierdzić że nie wpływają na żadną z trzech zakładek pierwszego użytkownika.
-- **Decyzja**: FIXED — dodano `test_another_users_home_and_away_matches_do_not_affect_my_tabs` (tests/Feature/StatsTest.php), commit 9f3e... (patrz plan.md Progress dla SHA).
+- **Decyzja**: FIXED — dodano `test_another_users_home_and_away_matches_do_not_affect_my_tabs` (tests/Feature/StatsTest.php), commit 776cc44.
 
 ## Podsumowanie agentów przeglądowych
 
