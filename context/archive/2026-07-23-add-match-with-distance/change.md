@@ -1,10 +1,10 @@
 ---
 change_id: add-match-with-distance
 title: Add match with distance
-status: impl_reviewed
+status: archived
 created: 2026-07-23
-updated: 2026-07-23
-archived_at: null
+updated: 2026-07-26
+archived_at: 2026-07-26T13:11:53Z
 ---
 
 ## Notes
