@@ -1,10 +1,10 @@
 ---
 change_id: home-away-stats-split
 title: Home away stats split
-status: impl_reviewed
+status: archived
 created: 2026-07-26
 updated: 2026-07-26
-archived_at: null
+archived_at: 2026-07-26T13:09:01Z
 ---
 
 ## Notes

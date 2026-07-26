@@ -3,7 +3,7 @@ project: "Wyjazdowicz"
 version: 1
 status: draft
 created: 2026-07-18
-updated: 2026-07-23
+updated: 2026-07-26
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -34,7 +34,7 @@ Kibic piłkarski jeżdżący na mecze wyjazdowe (i chodzący na domowe) po latac
 | S-03  | `add-match-with-distance` | dodać mecz (dom/wyjazd) z auto-obliczonym dystansem, widoczny na liście       | S-02                | FR-003, FR-006, FR-007, US-01 | proponowany |
 | S-04  | `edit-delete-match`       | edytować lub usunąć dodany mecz                                              | S-03                | FR-004, FR-005               | proponowany |
 | S-05  | `stats-dashboard`         | zobaczyć panel statystyk (bilans, %, passa, wskaźnik "pechowy kibic")        | S-03                | FR-008, FR-009, FR-010, FR-011, US-01 | proponowany |
-| S-06  | `home-away-stats-split`   | zobaczyć statystyki osobno dla meczów domowych i wyjazdowych                 | S-05                | FR-012                       | proponowany |
+| S-06  | `home-away-stats-split`   | zobaczyć statystyki osobno dla meczów domowych i wyjazdowych                 | S-05                | FR-012                       | zrobione |
 
 ## Baza
 
@@ -124,7 +124,7 @@ Brak. Cała funkcjonalność wymagana przez PRD ma bezpośredni, widoczny dla u�
 - **Blokady:** —
 - **Niewiadome:** —
 - **Ryzyko:** niskie — to filtr/agregacja nad tymi samymi danymi co S-05; główne ryzyko to zduplikowana logika agregująca między widokami.
-- **Status:** proponowany
+- **Status:** zrobione
 
 ## Przekazanie do backlogu
 
@@ -158,3 +158,4 @@ Obie decyzje są udokumentowane w Niewiadomych S-02/S-03 (oznaczone jako rozwią
 
 - **S-01: zarejestrować się i zalogować** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-user-registration-login/`. Lekcja: —.
 - **S-02: ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu)** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-team-and-home-profile/`. Lekcja: —.
+- **S-06: zobaczyć statystyki osobno dla meczów domowych i wyjazdowych** — Zarchiwizowano 2026-07-26 → `context/archive/2026-07-26-home-away-stats-split/`. Lekcja: —.
