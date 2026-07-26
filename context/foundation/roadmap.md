@@ -32,7 +32,7 @@ Kibic piłkarski jeżdżący na mecze wyjazdowe (i chodzący na domowe) po latac
 | S-01  | `user-registration-login` | zarejestrować się i zalogować                                                | —                   | FR-001                       | zrobione |
 | S-02  | `team-and-home-profile`   | ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu) | S-01             | FR-002                       | zrobione |
 | S-03  | `add-match-with-distance` | dodać mecz (dom/wyjazd) z auto-obliczonym dystansem, widoczny na liście       | S-02                | FR-003, FR-006, FR-007, US-01 | zrobione |
-| S-04  | `edit-delete-match`       | edytować lub usunąć dodany mecz                                              | S-03                | FR-004, FR-005               | proponowany |
+| S-04  | `edit-delete-match`       | edytować lub usunąć dodany mecz                                              | S-03                | FR-004, FR-005               | zrobione |
 | S-05  | `stats-dashboard`         | zobaczyć panel statystyk (bilans, %, passa, wskaźnik "pechowy kibic")        | S-03                | FR-008, FR-009, FR-010, FR-011, US-01 | proponowany |
 | S-06  | `home-away-stats-split`   | zobaczyć statystyki osobno dla meczów domowych i wyjazdowych                 | S-05                | FR-012                       | zrobione |
 
@@ -100,7 +100,7 @@ Brak. Cała funkcjonalność wymagana przez PRD ma bezpośredni, widoczny dla u�
 - **Blokady:** —
 - **Niewiadome:** —
 - **Ryzyko:** edycja wyniku musi przeliczyć bilans/statystyki na nowo — upewnić się, że przeliczenie jest idempotentne (edycja meczu dwa razy nie psuje bilansu).
-- **Status:** proponowany
+- **Status:** zrobione
 
 ### S-05: Panel statystyk zbiorczych
 
@@ -160,3 +160,4 @@ Obie decyzje są udokumentowane w Niewiadomych S-02/S-03 (oznaczone jako rozwią
 - **S-02: ustawić ulubioną drużynę (miasto stadionu drużyny = "dom" do liczenia dystansu)** — Zarchiwizowano 2026-07-23 → `context/archive/2026-07-19-team-and-home-profile/`. Lekcja: —.
 - **S-06: zobaczyć statystyki osobno dla meczów domowych i wyjazdowych** — Zarchiwizowano 2026-07-26 → `context/archive/2026-07-26-home-away-stats-split/`. Lekcja: —.
 - **S-03: dodać mecz (dom/wyjazd) z auto-obliczonym dystansem, widoczny na liście** — Zarchiwizowano 2026-07-26 → `context/archive/2026-07-23-add-match-with-distance/`. Lekcja: —.
+- **S-04: edytować lub usunąć dodany mecz** — Zarchiwizowano 2026-07-26 → `context/archive/2026-07-26-edit-delete-match/`. Lekcja: —.

@@ -1,10 +1,10 @@
 ---
 change_id: edit-delete-match
 title: Edit and delete match
-status: impl_reviewed
+status: archived
 created: 2026-07-26
 updated: 2026-07-26
-archived_at: null
+archived_at: 2026-07-26T13:12:46Z
 ---
 
 ## Notes
