@@ -6,6 +6,7 @@ use App\Models\GameMatch;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -112,6 +113,40 @@ class GameMatchTest extends TestCase
         $this->assertLessThanOrEqual(265, $match->distance_km);
     }
 
+    public function test_away_match_to_same_city_twice_produces_same_distance_for_identical_candidate_coordinates(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create([
+            'home_lat' => 52.2297,
+            'home_lng' => 21.0122,
+        ]);
+
+        $candidatePayload = [
+            'candidates' => [
+                ['display_name' => 'Kraków, Polska', 'lat' => 50.0647, 'lon' => 19.9450],
+            ],
+            'candidate' => 0,
+        ];
+
+        $this->actingAs($user)->post('/matches', array_merge($candidatePayload, [
+            'opponent' => 'Wisła Kraków',
+            'played_on' => now()->toDateString(),
+            'goals_for' => 1,
+            'goals_against' => 1,
+        ]));
+
+        $this->actingAs($user)->post('/matches', array_merge($candidatePayload, [
+            'opponent' => 'Cracovia',
+            'played_on' => now()->toDateString(),
+            'goals_for' => 2,
+            'goals_against' => 0,
+        ]));
+
+        $matches = $user->gameMatches()->get();
+        $this->assertCount(2, $matches);
+        $this->assertSame($matches[0]->distance_km, $matches[1]->distance_km);
+    }
+
     public function test_away_match_search_shows_validation_error_when_city_not_found(): void
     {
         Http::fake([
@@ -138,6 +173,74 @@ class GameMatchTest extends TestCase
     {
         Http::fake([
             'nominatim.openstreetmap.org/*' => Http::response(null, 500),
+        ]);
+
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->post('/matches/search', [
+            'opponent' => 'Wisła Kraków',
+            'played_on' => now()->toDateString(),
+            'venue' => 'away',
+            'city' => 'Kraków',
+            'goals_for' => 0,
+            'goals_against' => 0,
+        ]);
+
+        $response->assertSessionHasErrors('city');
+        $this->assertDatabaseCount('game_matches', 0);
+    }
+
+    public function test_away_match_search_shows_validation_error_when_nominatim_rate_limited(): void
+    {
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => Http::response(null, 429),
+        ]);
+
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->post('/matches/search', [
+            'opponent' => 'Wisła Kraków',
+            'played_on' => now()->toDateString(),
+            'venue' => 'away',
+            'city' => 'Kraków',
+            'goals_for' => 0,
+            'goals_against' => 0,
+        ]);
+
+        $response->assertSessionHasErrors('city');
+        $this->assertDatabaseCount('game_matches', 0);
+    }
+
+    public function test_away_match_search_shows_validation_error_when_nominatim_times_out(): void
+    {
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => fn () => throw new ConnectionException('timed out'),
+        ]);
+
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        $response = $this->actingAs($user)->post('/matches/search', [
+            'opponent' => 'Wisła Kraków',
+            'played_on' => now()->toDateString(),
+            'venue' => 'away',
+            'city' => 'Kraków',
+            'goals_for' => 0,
+            'goals_against' => 0,
+        ]);
+
+        $response->assertSessionHasErrors('city');
+        $this->assertDatabaseCount('game_matches', 0);
+    }
+
+    public function test_away_match_search_shows_validation_error_when_nominatim_returns_malformed_response(): void
+    {
+        Http::fake([
+            'nominatim.openstreetmap.org/*' => Http::response([
+                ['display_name' => 'Rekord bez współrzędnych'],
+            ], 200),
         ]);
 
         $user = User::factory()->create();
