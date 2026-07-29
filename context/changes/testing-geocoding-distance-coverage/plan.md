@@ -263,21 +263,21 @@ automatycznych weryfikacji, zatrzymaj się tutaj po ręcznym potwierdzeniu.
 
 #### Automated
 
-- [x] 1.1 `php artisan test --filter=GameMatchTest` passes, including the new test
-- [x] 1.2 Full suite passes: `php artisan test`
+- [x] 1.1 `php artisan test --filter=GameMatchTest` passes, including the new test — 14e1203
+- [x] 1.2 Full suite passes: `php artisan test` — 14e1203
 
 #### Manual
 
-- [x] 1.3 Read the new test and confirm its two `distance_km` values come from two independently-created database rows
+- [x] 1.3 Read the new test and confirm its two `distance_km` values come from two independently-created database rows — 14e1203
 
 ### Phase 2: Nominatim failure-variant coverage (Risk #6)
 
 #### Automated
 
-- [x] 2.1 `php artisan test --filter=GameMatchTest` passes, including all 3 new tests
-- [x] 2.2 Full suite passes: `php artisan test`
+- [x] 2.1 `php artisan test --filter=GameMatchTest` passes, including all 3 new tests — 14e1203
+- [x] 2.2 Full suite passes: `php artisan test` — 14e1203
 
 #### Manual
 
-- [x] 2.3 Read all three new tests side by side and confirm they share the same assertion shape
-- [x] 2.4 Read the updated `test-plan.md` §6.3 and confirm it points at real references, not placeholders
+- [x] 2.3 Read all three new tests side by side and confirm they share the same assertion shape — 14e1203
+- [x] 2.4 Read the updated `test-plan.md` §6.3 and confirm it points at real references, not placeholders — 14e1203
