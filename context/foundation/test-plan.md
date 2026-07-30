@@ -76,7 +76,7 @@ orchestrator updates Status as artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
 | 1 | Geocoding & distance coverage | Prove city resolution and Nominatim failure handling are correct | #2, #6 | integration (feature, `Http::fake()`) | complete | `context/changes/testing-geocoding-distance-coverage/` |
-| 2 | Stats consistency after edit/delete | Prove balance/streak/unlucky-fan stay correct across edits and deletes | #3 | integration (feature) | not started | — |
+| 2 | Stats consistency after edit/delete | Prove balance/streak/unlucky-fan stay correct across edits and deletes | #3 | integration (feature) | complete | `context/changes/testing-stats-consistency-after-edit-delete/` |
 | 3 | Ownership contract | One contract test across all match/stats routes instead of per-endpoint memory | #5 | integration (feature, contract-style) | not started | — |
 | 4 | Quality-gates wiring | Require the test suite to pass before deploy; catch stale frontend builds | #1, #4 | gates (CI) | not started | — |
 
@@ -133,6 +133,20 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Pattern already in use**: `User::factory()->create()` + `Team::factory()->for($user)->create()` + `GameMatch::factory()->for($user)->create([...])`, assertions via `actingAs($user)->get(route(...))`.
 - **Reference test**: `tests/Feature/GameMatchTest.php`, `tests/Feature/StatsTest.php`.
 - **Run locally**: `php artisan test --filter=<TestName>`.
+- **Pattern: mutate then recheck a derived view.** When a test needs to prove a
+  read view (like `/stats`) reflects a prior mutation (edit/delete) without
+  extra user action: `actingAs($user)->patch(...)`/`->delete(...)` against the
+  mutating route, then a fresh `actingAs($user)->get(...)` on the read route,
+  asserting hand-derived expected values before *and* after the mutation (not
+  just after) so the assertion actually proves the change was caused by the
+  mutation. When the read view renders multiple percentage/count tiles that
+  could collide as substrings (e.g. `"0%"` inside `"100%"`), anchor the search
+  with surrounding markup (e.g. `'>0%<'`) instead of a bare `assertSee`.
+  Reference: `tests/Feature/StatsTest.php`'s
+  `test_editing_match_result_updates_balance_and_unlucky_fan_across_tabs`,
+  `test_editing_played_on_reorders_streak_across_tabs`, and
+  `test_deleting_match_updates_balance_and_unlucky_fan_on_next_stats_view`.
+  Checked: 2026-07-30 (rollout §3 Phase 2).
 
 ### 6.3 Adding a test that mocks an external API (Nominatim)
 
@@ -148,6 +162,19 @@ the relevant rollout phase ships; before that, the sub-section reads
 ### 6.5 Per-rollout-phase notes
 
 (Filled in as each phase lands.)
+
+- **§3 Phase 2 (stats consistency after edit/delete), 2026-07-30**: Stats have
+  no cache or persisted aggregate to invalidate (deliberate S-05 design), so
+  these tests only needed to prove the query/sort/compute chain still holds
+  under mutation — not to test any invalidation logic, which doesn't exist.
+  The one real latent gap was an implicit contract: `StatsCalculator::forMatches()`
+  trusts its input is pre-sorted newest-first and never verifies it
+  (`app/Services/StatsCalculator.php:9-10`). For testing any other implicit
+  ordering/precondition contract elsewhere in this codebase, see
+  `tests/Feature/StatsTest.php::test_streak_result_depends_entirely_on_caller_supplied_order`
+  as the reference pattern: feed the same input in two different orders and
+  assert the output differs, making the undefended precondition explicit and
+  regression-proof.
 
 ## 7. What We Deliberately Don't Test
 

@@ -291,4 +291,167 @@ class StatsTest extends TestCase
         $this->assertSame(3, substr_count($response->getContent(), '100%'));
         $response->assertDontSee('999 km');
     }
+
+    public function test_editing_match_result_updates_balance_and_unlucky_fan_across_tabs(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'home',
+            'distance_km' => null,
+            'goals_for' => 2,
+            'goals_against' => 0, // win
+        ]);
+        $awayMatch = GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 100,
+            'goals_for' => 2,
+            'goals_against' => 0, // win
+        ]);
+
+        // Baseline: both matches are wins -> 100% on overall, home, and away tabs; nobody unlucky.
+        $before = $this->actingAs($user)->get('/stats');
+        $before->assertOk();
+        $this->assertSame(3, substr_count($before->getContent(), '>100%<'));
+        $before->assertDontSee('border-red-200');
+
+        $response = $this->actingAs($user)->patch("/matches/{$awayMatch->id}", [
+            'opponent' => $awayMatch->opponent,
+            'played_on' => $awayMatch->played_on->toDateString(),
+            'goals_for' => 0,
+            'goals_against' => 1, // away match flips to a loss
+        ]);
+        $response->assertRedirect(route('matches.index'));
+
+        // After edit: overall = 1 win + 1 loss -> 50%, tied, not unlucky.
+        // Home is untouched -> still 100%. Away = 0 wins, 1 loss -> 0%, unlucky
+        // (losses > wins && losses > draws).
+        $after = $this->actingAs($user)->get('/stats');
+        $after->assertOk();
+        $this->assertSame(1, substr_count($after->getContent(), '>50%<'));
+        $this->assertSame(1, substr_count($after->getContent(), '>100%<'));
+        $this->assertSame(1, substr_count($after->getContent(), '>0%<'));
+        $this->assertSame(1, substr_count($after->getContent(), 'border-red-200'));
+    }
+
+    public function test_editing_played_on_reorders_streak_across_tabs(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'home',
+            'distance_km' => null,
+            'played_on' => '2026-01-10',
+            'goals_for' => 2,
+            'goals_against' => 0, // H1: win, newest overall+home before the edit
+        ]);
+        $h2 = GameMatch::factory()->for($user)->create([
+            'venue' => 'home',
+            'distance_km' => null,
+            'played_on' => '2026-01-05',
+            'goals_for' => 0,
+            'goals_against' => 1, // H2: loss, oldest home match before the edit
+        ]);
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 50,
+            'played_on' => '2026-01-08',
+            'goals_for' => 0,
+            'goals_against' => 1, // A1: loss, newest away
+        ]);
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 80,
+            'played_on' => '2026-01-03',
+            'goals_for' => 2,
+            'goals_against' => 0, // A2: win, oldest away
+        ]);
+
+        // Baseline order (desc by played_on): overall H1,A1,H2,A2; home H1,H2; away A1,A2.
+        // Streaks: overall "1× W" (H1 breaks on A1), home "1× W" (H1 breaks on H2),
+        // away "1× P" (A1 breaks on A2).
+        $before = $this->actingAs($user)->get('/stats');
+        $before->assertOk();
+        $this->assertSame(2, substr_count($before->getContent(), '>1× W<'));
+        $this->assertSame(1, substr_count($before->getContent(), '>1× P<'));
+
+        // Move H2 to be the newest match overall and within the home tab, without
+        // changing its result (still a loss).
+        $response = $this->actingAs($user)->patch("/matches/{$h2->id}", [
+            'opponent' => $h2->opponent,
+            'played_on' => '2026-01-12',
+            'goals_for' => 0,
+            'goals_against' => 1,
+        ]);
+        $response->assertRedirect(route('matches.index'));
+
+        // New order: overall H2,H1,A1,A2; home H2,H1; away unchanged (A1,A2).
+        // Streaks: overall "1× P" (H2 breaks on H1), home "1× P" (H2 breaks on H1),
+        // away still "1× P" (untouched by this edit -> isolation held).
+        $after = $this->actingAs($user)->get('/stats');
+        $after->assertOk();
+        $this->assertSame(0, substr_count($after->getContent(), '>1× W<'));
+        $this->assertSame(3, substr_count($after->getContent(), '>1× P<'));
+    }
+
+    public function test_deleting_match_updates_balance_and_unlucky_fan_on_next_stats_view(): void
+    {
+        $user = User::factory()->create();
+        Team::factory()->for($user)->create();
+
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 10,
+            'goals_for' => 2,
+            'goals_against' => 0, // win
+        ]);
+        $loss1 = GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 20,
+            'goals_for' => 0,
+            'goals_against' => 1, // loss
+        ]);
+        GameMatch::factory()->for($user)->create([
+            'venue' => 'away',
+            'distance_km' => 30,
+            'goals_for' => 0,
+            'goals_against' => 1, // loss
+        ]);
+
+        // All matches are away, so overall and away tabs share the same numbers by
+        // construction (home has none, so it contributes no percentage to collide with).
+        // Baseline: 1 win, 2 losses, total 3 -> 33%; losses(2) > wins(1) && losses(2) >
+        // draws(0) -> unlucky on both overall and away.
+        $before = $this->actingAs($user)->get('/stats');
+        $before->assertOk();
+        $this->assertSame(2, substr_count($before->getContent(), '>33%<'));
+        $this->assertSame(2, substr_count($before->getContent(), 'border-red-200'));
+
+        $response = $this->actingAs($user)->delete("/matches/{$loss1->id}");
+        $response->assertRedirect(route('matches.index'));
+
+        // After delete: 1 win, 1 loss, total 2 -> 50%, tied -> not unlucky.
+        $after = $this->actingAs($user)->get('/stats');
+        $after->assertOk();
+        $this->assertSame(2, substr_count($after->getContent(), '>50%<'));
+        $after->assertDontSee('border-red-200');
+    }
+
+    public function test_streak_result_depends_entirely_on_caller_supplied_order(): void
+    {
+        // StatsCalculator::forMatches() does not sort its input — it trusts the
+        // caller (StatsController) to supply matches newest-first. This test makes
+        // that contract explicit: the same two matches produce an opposite
+        // streak_result depending purely on the order they're passed in.
+        $win = new GameMatch(['goals_for' => 2, 'goals_against' => 0]);
+        $loss = new GameMatch(['goals_for' => 0, 'goals_against' => 1]);
+
+        $newestFirst = (new StatsCalculator)->forMatches(collect([$win, $loss]));
+        $oldestFirst = (new StatsCalculator)->forMatches(collect([$loss, $win]));
+
+        $this->assertSame('win', $newestFirst['streak_result']);
+        $this->assertSame('loss', $oldestFirst['streak_result']);
+    }
 }
