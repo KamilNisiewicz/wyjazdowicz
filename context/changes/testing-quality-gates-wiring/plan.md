@@ -202,35 +202,35 @@ None — no data model, schema, or runtime behavior changes. Pure CI/CD configur
 
 #### Automatyczne
 
-- [x] 1.1 `deploy.yml` parses as valid YAML and the `test` job is syntactically well-formed
-- [x] 1.2 `php artisan test` passes locally: 85/85 tests
+- [x] 1.1 `deploy.yml` parses as valid YAML and the `test` job is syntactically well-formed — d402596
+- [x] 1.2 `php artisan test` passes locally: 85/85 tests — d402596
 
 #### Ręczne
 
-- [x] 1.3 Failing-test push on temporary branch confirms `deploy` job is blocked/skipped
-- [x] 1.4 Fixed-test push on temporary branch confirms `deploy` job runs
-- [x] 1.5 Temporary branch removed from `on.push.branches`
+- [x] 1.3 Failing-test push on temporary branch confirms `deploy` job is blocked/skipped — d402596
+- [x] 1.4 Fixed-test push on temporary branch confirms `deploy` job runs — d402596
+- [x] 1.5 Temporary branch removed from `on.push.branches` — d402596
 
 ### Faza 2: Compiled-CSS class verification
 
 #### Automatyczne
 
-- [x] 2.1 `deploy.yml` parses as valid YAML with the new step present
-- [x] 2.2 Local grep against fresh `npm run build` output finds all six seed classes with the escaped pattern
+- [x] 2.1 `deploy.yml` parses as valid YAML with the new step present — d402596
+- [x] 2.2 Local grep against fresh `npm run build` output finds all six seed classes with the escaped pattern — d402596
 
 #### Ręczne
 
-- [x] 2.3 Stripped-class push on temporary branch confirms the step fails before rsync — verified locally instead of via live push (user-approved substitution): stripped all 4 seed classes from every source file that declares them, cleared Laravel's view cache, rebuilt, confirmed the exact CI grep logic reports all 4 missing
-- [x] 2.4 Restored-class push on temporary branch confirms the step passes — verified locally: restored source, rebuilt, confirmed all 4 found
-- [x] 2.5 Temporary branch removed from `on.push.branches` — N/A, no verification branch was created for this phase (local-only verification)
+- [x] 2.3 Stripped-class push on temporary branch confirms the step fails before rsync — verified locally instead of via live push (user-approved substitution): stripped all 4 seed classes from every source file that declares them, cleared Laravel's view cache, rebuilt, confirmed the exact CI grep logic reports all 4 missing — d402596
+- [x] 2.4 Restored-class push on temporary branch confirms the step passes — verified locally: restored source, rebuilt, confirmed all 4 found — d402596
+- [x] 2.5 Temporary branch removed from `on.push.branches` — N/A, no verification branch was created for this phase (local-only verification) — d402596
 
 ### Faza 3: Cookbook update (`test-plan.md` §6.5)
 
 #### Automatyczne
 
-- [x] 3.1 `test-plan.md` §6.5 no longer contains the literal string `TBD`
-- [x] 3.2 `test-plan.md` §3 row 4 `Status` cell reads `complete`
+- [x] 3.1 `test-plan.md` §6.5 no longer contains the literal string `TBD` — d402596
+- [x] 3.2 `test-plan.md` §3 row 4 `Status` cell reads `complete` — d402596
 
 #### Ręczne
 
-- [x] 3.3 §6.5 read-through confirms it's sufficient for a future contributor to add a third gate unaided
+- [x] 3.3 §6.5 read-through confirms it's sufficient for a future contributor to add a third gate unaided — d402596
