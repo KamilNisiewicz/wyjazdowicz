@@ -244,20 +244,20 @@ insight (why the naive "iterate all match/stats routes" framing was wrong).
 
 #### Automatic
 
-- [x] 1.1 New file passes in isolation: `php artisan test --filter=OwnershipContractTest`
-- [x] 1.2 Full suite passes with no regressions: `php artisan test`
-- [x] 1.3 `tests/Feature/GameMatchTest.php` no longer contains `test_user_cannot_edit_view_or_delete_another_users_match`
+- [x] 1.1 New file passes in isolation: `php artisan test --filter=OwnershipContractTest` — 72cb672
+- [x] 1.2 Full suite passes with no regressions: `php artisan test` — 72cb672
+- [x] 1.3 `tests/Feature/GameMatchTest.php` no longer contains `test_user_cannot_edit_view_or_delete_another_users_match` — 72cb672
 
 #### Manual
 
-- [x] 1.4 PHPUnit testdox output confirms 3 distinct labeled cases
+- [x] 1.4 PHPUnit testdox output confirms 3 distinct labeled cases — 72cb672
 
 ### Phase 2: Cookbook update
 
 #### Automatic
 
-- [x] 2.1 `test-plan.md` §3 Phase 3 row reads `complete`
+- [x] 2.1 `test-plan.md` §3 Phase 3 row reads `complete` — 72cb672
 
 #### Manual
 
-- [x] 2.2 Cookbook entry reads clearly as a standalone "how do I add this kind of test" answer
+- [x] 2.2 Cookbook entry reads clearly as a standalone "how do I add this kind of test" answer — 72cb672
