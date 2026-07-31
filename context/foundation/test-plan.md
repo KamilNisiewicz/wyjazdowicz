@@ -64,7 +64,7 @@ Note on excluded candidate: production-database-backup gaps (`infrastructure.md`
 | #2 | A user adding an away match in a city with multiple geocoding matches sees a candidate list to confirm (not silent auto-pick of the first result), and given the same confirmed candidate coordinates, the calculated distance is deterministic (repeat, independent live Nominatim searches are outside this codebase's control — no cache exists or is planned, so cross-request coordinate stability is not a testable/promised guarantee) | "Nominatim returned a result, so the result is correct" — the API can return duplicates, shifted coordinates, or an unrelated place with the same name | How `NominatimGeocoder` deduplicates today (already patched once for "Zabrze"), where user confirmation happens in the flow, whether distance is computed once at save time or recomputed on every view | Feature/integration test with `Http::fake()` simulating multiple/duplicate Nominatim results | A test that fakes exactly one clean Nominatim result (happy path only) and only asserts `distance_km` is non-null |
 | #3 | After editing a match's result or deleting a match, `/stats` (overall and per home/away tab) immediately reflects the new/removed match in balance, streak, and unlucky-fan flag, with no extra user action | "Testing match creation is enough because `StatsCalculator` is stateless" — statelessness of the service doesn't guarantee the controller re-fetches fresh, correctly-ordered data after an edit that changes `played_on` | Whether any query/collection is cached across requests; how edit/delete trigger recalculation; whether changing `played_on` in an edit re-sorts correctly for streak | Feature test: edit a match affecting the streak/balance, re-fetch `/stats`, assert on manually-computed expected values; separate test for deletion | A test that computes its expected value by calling the same `StatsCalculator` method under test (tautological, mirrors implementation) |
 | #4 | After adding a new Tailwind class to any Blade view and running `npm run build`, the compiled CSS actually contains that class — and CI/a local check flags a build run under the wrong Node version | "The Blade code is correct, so the style will work" — this exact assumption broke in S-04: correct code, dead build | Whether `.github/workflows/deploy.yml` already pins Node 20+/LTS for the build step; whether any local hook checks Node version before `npm run build` | Quality gate / deterministic check (grep compiled CSS for newly-used classes), not a classic unit test | Relying only on remembering to `export PATH=...v20...` by hand before every build (already failed once) |
-| #5 | Every route touching `GameMatch` (existing and future) denies access (404, no existence leak) to a user who swaps in another user's ID — verifiable by one shared pattern, not per-endpoint memory | "Existing owner-isolation tests cover this forever" — they cover today's endpoints; a new endpoint written without awareness of the `$request->user()->gameMatches()` pattern could use `GameMatch::find($id)` directly and quietly break isolation | Every controller touching `GameMatch`/`Team` today; whether all consistently scope through the user relation; whether a Laravel `Policy` is worth adding as a systemic guard instead of relying on discipline | Existing feature tests (already present) + one contract-style test iterating over all `matches.*`/`stats.*` routes with another user's ID | A test that checks only one endpoint (e.g. edit) and calls the topic closed, while delete/view may have a different code path |
+| #5 | Every route that accepts a resource ID from the client (`matches.edit`/`update`/`destroy` — the only 3 `GameMatch`/`Team` routes with an ID param today) denies access (404, no existence leak) to a user who swaps in another user's ID — verifiable by one shared, extensible pattern, not per-endpoint memory | "Existing owner-isolation tests cover this forever" — a new endpoint written without awareness of the `$request->user()->gameMatches()` pattern could use `GameMatch::find($id)` directly and quietly break isolation. Also challenge "iterate over all match/stats routes" literally — `matches.index/search/store`, `stats.index`, and all `team.*` routes take no resource ID at all, so there is nothing to swap; asserting isolation there is coverage theater, not signal | Every controller touching `GameMatch`/`Team` today; whether all consistently scope through the user relation; whether a Laravel `Policy` is worth adding as a systemic guard instead of relying on discipline | A test already exists (3 inline assertions in one method) for the 3 ID-taking routes — refactor it into a data-provider-driven contract so a future ID-taking route is a one-line array addition, not a remembered new test method | A test that checks only one endpoint (e.g. edit) and calls the topic closed, while delete/view may have a different code path; or a test that iterates ID-less routes with a fabricated "another user's ID" that was never attackable to begin with |
 | #6 | When Nominatim doesn't respond, errors, or returns empty during away-match creation, the user sees a clear error message and can retry — the app never saves a match with `distance_km = null`/garbage data, nor throws a raw 500. Confirmed by research: the codebase deliberately collapses every failure mode (429, 500, timeout, malformed body, genuine empty result) to the same safe outcome — the test must prove that collapse holds for each variant, not that variants are handled differently | "One failure-path test (already added in S-03) covers this" — different failure modes (timeout, 429 rate-limit, empty JSON, malformed response) might degrade differently and that's untested | Current error handling in `NominatimGeocoder`; which cases are already tested; which are missing (429 specifically, given the ~1 req/s policy) | Feature test with `Http::fake()` simulating distinct response codes (timeout, 429, 500, empty JSON) on the away-match creation route, each asserting the same safe outcome | Asserting that different failure codes should produce different user-facing handling — the app intentionally does not distinguish them; testing for differentiation would test for behavior that isn't there |
 
 ## 3. Phased Rollout
@@ -77,7 +77,7 @@ orchestrator updates Status as artifacts appear on disk.
 |---|---|---|---|---|---|---|
 | 1 | Geocoding & distance coverage | Prove city resolution and Nominatim failure handling are correct | #2, #6 | integration (feature, `Http::fake()`) | complete | `context/changes/testing-geocoding-distance-coverage/` |
 | 2 | Stats consistency after edit/delete | Prove balance/streak/unlucky-fan stay correct across edits and deletes | #3 | integration (feature) | complete | `context/changes/testing-stats-consistency-after-edit-delete/` |
-| 3 | Ownership contract | One contract test across all match/stats routes instead of per-endpoint memory | #5 | integration (feature, contract-style) | not started | — |
+| 3 | Ownership contract | One contract test across all match/stats routes instead of per-endpoint memory | #5 | integration (feature, contract-style) | complete | `context/changes/testing-ownership-contract/` |
 | 4 | Quality-gates wiring | Require the test suite to pass before deploy; catch stale frontend builds | #1, #4 | gates (CI) | not started | — |
 
 **Status vocabulary** (fixed): `not started` → `change opened` → `researched` → `planned` → `implementing` → `complete`.
@@ -155,13 +155,52 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Design invariant to preserve in new tests**: `NominatimGeocoder` deliberately collapses every failure mode (429, 5xx, timeout, malformed body, genuine empty result) to the same `[]` → same controller behavior (generic `city`-field error, zero rows persisted, no raw 500). New failure-mode tests should assert this *same* outcome recurs — not that different failure codes get different handling, which the app does not do by design.
 - Checked: 2026-07-29 (rollout §3 Phase 1).
 
-### 6.4 Wiring a new CI quality gate
+### 6.4 Adding a test for a route that takes an owned resource's ID
+
+- **Location**: `tests/Feature/OwnershipContractTest.php`.
+- **Pattern**: a single PHPUnit data provider (`idTakingRoutes()`) lists every
+  route that accepts a client-supplied ID for an owned model (`GameMatch`
+  today), as `[method, uriTemplate, mutating]` tuples. One test method,
+  `test_intruder_cannot_access_another_users_match_by_id`, is parameterized
+  over the provider via `#[DataProvider('idTakingRoutes')]` — it creates an
+  owner + a match, a separate intruder, requests the route as the intruder
+  against the owner's resource ID, and asserts a 404 (`assertNotFound()`)
+  plus, for mutating routes, that the record is unchanged in the database
+  (`assertDatabaseHas`).
+- **When you add a route that takes an owned resource's ID**: add one line to
+  the `idTakingRoutes()` array — do not write a new test method. This is the
+  whole point of the contract: a forgotten route is a forgotten array entry,
+  not a forgotten method nobody thought to write.
+- **When NOT to add a route here**: if the route takes no resource ID at all
+  (e.g. `matches.index`, `stats.index`, `team.*` — all scoped implicitly via
+  `$request->user()`), there is nothing for an attacker to swap in; adding it
+  to this provider would assert isolation with no attack surface behind it
+  (coverage theater, not signal).
+- Checked: 2026-07-31 (rollout §3 Phase 3).
+
+### 6.5 Wiring a new CI quality gate
 
 - TBD — see §3 Phase 4.
 
-### 6.5 Per-rollout-phase notes
+### 6.6 Per-rollout-phase notes
 
 (Filled in as each phase lands.)
+
+- **§3 Phase 3 (ownership contract), 2026-07-31**: The risk map's original
+  phrasing ("one contract test across all match/stats routes") was broader
+  than the actual attack surface. Research found only 3 routes
+  (`matches.edit`/`update`/`destroy`) accept a client-supplied resource ID at
+  all — every other match/stats/team route is scoped implicitly via
+  `$request->user()` with no ID parameter to swap. An isolation test already
+  existed for those 3 routes as inline assertions in one fixed method; the
+  gap wasn't missing coverage, it was that nothing forced a *future*
+  ID-taking route to be added to it. Refactoring to a data-provider contract
+  (§6.4) turns "remember to write a new test method" into "add one array
+  line" — verified by temporarily adding a throwaway 4th entry and confirming
+  it produced a 4th passing case with zero other changes. General lesson: for
+  any "must hold for every X" risk, check first whether X is actually a
+  small, enumerable set before proposing a test per member — enumerating
+  ID-less routes for an ID-swap risk would have been coverage theater.
 
 - **§3 Phase 2 (stats consistency after edit/delete), 2026-07-30**: Stats have
   no cache or persisted aggregate to invalidate (deliberate S-05 design), so

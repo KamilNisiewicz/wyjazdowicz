@@ -420,32 +420,6 @@ class GameMatchTest extends TestCase
         $this->assertDatabaseMissing('game_matches', ['id' => $match->id]);
     }
 
-    public function test_user_cannot_edit_view_or_delete_another_users_match(): void
-    {
-        $owner = User::factory()->create();
-        Team::factory()->for($owner)->create();
-        $match = GameMatch::factory()->for($owner)->create();
-
-        $intruder = User::factory()->create();
-        Team::factory()->for($intruder)->create();
-
-        $this->actingAs($intruder)->get("/matches/{$match->id}/edit")->assertNotFound();
-
-        $this->actingAs($intruder)->patch("/matches/{$match->id}", [
-            'opponent' => 'Podmieniony przeciwnik',
-            'played_on' => now()->toDateString(),
-            'goals_for' => 9,
-            'goals_against' => 9,
-        ])->assertNotFound();
-
-        $this->actingAs($intruder)->delete("/matches/{$match->id}")->assertNotFound();
-
-        $this->assertDatabaseHas('game_matches', [
-            'id' => $match->id,
-            'opponent' => $match->opponent,
-        ]);
-    }
-
     public function test_guest_is_redirected_to_login_for_edit_update_destroy(): void
     {
         $owner = User::factory()->create();
