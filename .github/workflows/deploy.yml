@@ -5,7 +5,41 @@ on:
     branches: [master]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Run test suite
+        run: php artisan test
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +60,27 @@ jobs:
 
       - name: Build frontend assets
         run: npm run build
+
+      - name: Verify compiled CSS contains known responsive classes
+        run: |
+          set -e
+          CSS_FILE=$(find public/build/assets -maxdepth 1 -name "*.css" | head -n1)
+          if [ -z "$CSS_FILE" ]; then
+            echo "No compiled CSS file found under public/build/assets" >&2
+            exit 1
+          fi
+          MISSING=0
+          for cls in 'sm\:block' 'sm\:grid-cols-4' 'lg\:block' 'lg\:flex-row'; do
+            if ! grep -qF -- "$cls" "$CSS_FILE"; then
+              echo "Missing compiled class: $cls" >&2
+              MISSING=1
+            fi
+          done
+          if [ "$MISSING" -eq 1 ]; then
+            echo "Compiled CSS is missing known classes — aborting before deploy." >&2
+            exit 1
+          fi
+          echo "All known responsive classes present in $CSS_FILE"
 
       - name: Upload built assets
         uses: burnett01/rsync-deployments@7.0.1
