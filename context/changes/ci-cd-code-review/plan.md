@@ -203,8 +203,8 @@ Brak nowego kodu aplikacji (PHP) — nic do pokrycia `php artisan test`. Weryfik
 
 #### Automatyczne
 
-- [ ] 2.1 `ANTHROPIC_API_KEY` obecny w sekretach repo
-- [ ] 2.2 Cztery etykiety (`impl-review`, `impl-review-override`, `ai-cr:passed`, `ai-cr:failed`) istnieją w repo
+- [x] 2.1 `ANTHROPIC_API_KEY` obecny w sekretach repo
+- [x] 2.2 Cztery etykiety (`impl-review`, `impl-review-override`, `ai-cr:passed`, `ai-cr:failed`) istnieją w repo
 - [ ] 2.3 Co najmniej jeden przebieg `review.yml` ma status `completed`
 
 #### Ręczne
