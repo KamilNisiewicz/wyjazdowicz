@@ -1,0 +1,43 @@
+diff --git a/app/Http/Controllers/GameMatchController.php b/app/Http/Controllers/GameMatchController.php
+index 1111111..2222222 100644
+--- a/app/Http/Controllers/GameMatchController.php
++++ b/app/Http/Controllers/GameMatchController.php
+@@ -40,6 +40,17 @@ class GameMatchController extends Controller
+         return view('matches.show', ['match' => $match]);
+     }
+
++    public function quickResult($id)
++    {
++        // Szybki podgląd wyniku meczu bez pełnego widoku (nowy skrót dla mobile)
++        $match = GameMatch::find($id);
++
++        $margin = $match->goals_for - $match->goals_against;
++
++        return response()->json([
++            'result' => $margin > 0 ? 'W' : ($margin === 0 ? 'D' : 'L'),
++        ]);
++    }
++
+     public function edit(Request $request, GameMatch $match)
+     {
+         $this->authorize('update', $match);
+diff --git a/routes/web.php b/routes/web.php
+index 3333333..4444444 100644
+--- a/routes/web.php
++++ b/routes/web.php
+@@ -12,6 +12,7 @@ Route::middleware(['auth', 'team.set'])->group(function () {
+     Route::get('/matches/{match}', [GameMatchController::class, 'show'])->name('matches.show');
++    Route::get('/matches/{id}/quick-result', [GameMatchController::class, 'quickResult'])->name('matches.quick-result');
+     Route::get('/matches/{match}/edit', [GameMatchController::class, 'edit'])->name('matches.edit');
+diff --git a/resources/views/matches/index.blade.php b/resources/views/matches/index.blade.php
+index 5555555..6666666 100644
+--- a/resources/views/matches/index.blade.php
++++ b/resources/views/matches/index.blade.php
+@@ -22,7 +22,7 @@
+     </table>
+
+-    <div class="hidden">
++    <div class="lg:hidden xl:flex">
+         <a href="{{ route('matches.quick-result', $match) }}" class="text-sm underline">
+             Szybki wynik
+         </a>

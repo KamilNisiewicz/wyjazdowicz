@@ -5,10 +5,15 @@
 .DS_Store
 *.swp
 
+# tools/ai-review: agent do code review (10xChampion), osobny pakiet Node
+tools/ai-review/node_modules/
+
 START-KONTEKST.md
+10XCHAMPION-PLAN.md
 
 # 10x-cli: pliki narzędziowe skilli, odtwarzalne przez `10x get <lekcja>`
-.claude/skills/
+.claude/skills/*
+!.claude/skills/10x-impl-review-ci/
 .claude/prompts/
 .claude/.10x-cli-manifest.json
 
