@@ -209,7 +209,7 @@ Brak nowego kodu aplikacji (PHP) — nic do pokrycia `php artisan test`. Weryfik
 
 #### Ręczne
 
-- [ ] 2.4 Job `faza-b-review` zamieścił komentarz + poprawną etykietę `ai-cr:*`
-- [ ] 2.5 Job `impl-review` zamieścił komentarz + commit raportu z `[skip ci]` po dodaniu etykiety `impl-review`
-- [ ] 2.6 Zebrane trzy dowody 10xChampion (zrzut pipeline'u, logi, zrzut komentarza AI)
-- [ ] 2.7 Brak pętli triggerów po commicie bota
+- [x] 2.4 Job `faza-b-review` zamieścił komentarz + poprawną etykietę `ai-cr:*`
+- [x] 2.5 Job `impl-review` zamieścił komentarz + commit raportu z `[skip ci]` po dodaniu etykiety `impl-review`
+- [x] 2.6 Zebrane trzy dowody 10xChampion (zrzut pipeline'u, logi, zrzut komentarza AI) — linki zapisane w `10XCHAMPION-PLAN.md`, zrzuty ekranu do samodzielnego zebrania przez użytkownika
+- [x] 2.7 Brak pętli triggerów po commicie bota
