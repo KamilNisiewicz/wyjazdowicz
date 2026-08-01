@@ -203,13 +203,13 @@ Brak nowego kodu aplikacji (PHP) — nic do pokrycia `php artisan test`. Weryfik
 
 #### Automatyczne
 
-- [x] 2.1 `ANTHROPIC_API_KEY` obecny w sekretach repo
-- [x] 2.2 Cztery etykiety (`impl-review`, `impl-review-override`, `ai-cr:passed`, `ai-cr:failed`) istnieją w repo
-- [x] 2.3 Co najmniej jeden przebieg `review.yml` ma status `completed`
+- [x] 2.1 `ANTHROPIC_API_KEY` obecny w sekretach repo — ad79dc5
+- [x] 2.2 Cztery etykiety (`impl-review`, `impl-review-override`, `ai-cr:passed`, `ai-cr:failed`) istnieją w repo — ad79dc5
+- [x] 2.3 Co najmniej jeden przebieg `review.yml` ma status `completed` — ad79dc5
 
 #### Ręczne
 
-- [x] 2.4 Job `faza-b-review` zamieścił komentarz + poprawną etykietę `ai-cr:*`
-- [x] 2.5 Job `impl-review` zamieścił komentarz + commit raportu z `[skip ci]` po dodaniu etykiety `impl-review`
-- [x] 2.6 Zebrane trzy dowody 10xChampion (zrzut pipeline'u, logi, zrzut komentarza AI) — linki zapisane w `10XCHAMPION-PLAN.md`, zrzuty ekranu do samodzielnego zebrania przez użytkownika
-- [x] 2.7 Brak pętli triggerów po commicie bota
+- [x] 2.4 Job `faza-b-review` zamieścił komentarz + poprawną etykietę `ai-cr:*` — ad79dc5
+- [x] 2.5 Job `impl-review` zamieścił komentarz + commit raportu z `[skip ci]` po dodaniu etykiety `impl-review` — ad79dc5
+- [x] 2.6 Zebrane trzy dowody 10xChampion (zrzut pipeline'u, logi, zrzut komentarza AI) — linki zapisane w `10XCHAMPION-PLAN.md`, zrzuty ekranu do samodzielnego zebrania przez użytkownika — ad79dc5
+- [x] 2.7 Brak pętli triggerów po commicie bota — ad79dc5
