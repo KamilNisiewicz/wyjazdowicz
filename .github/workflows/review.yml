@@ -109,6 +109,11 @@ jobs:
       # Required for POSTing the "impl-review-ci/verdict" commit status
       # to the bot's SHA from the "Check review verdict" step.
       statuses: write
+      # claude-code-action@v1 fetches an OIDC token during its auth setup;
+      # without this, it fails with "Could not fetch an OIDC token" after
+      # 3 retries. Missing from the vendored workflow-template.yml — found
+      # live in CI (run 30701354007), not documented anywhere upstream.
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
