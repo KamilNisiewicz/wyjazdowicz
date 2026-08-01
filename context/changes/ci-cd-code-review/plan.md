@@ -187,17 +187,17 @@ Brak nowego kodu aplikacji (PHP) — nic do pokrycia `php artisan test`. Weryfik
 
 #### Automatyczne
 
-- [x] 1.1 `review.yml` parsuje się jako poprawny YAML
-- [x] 1.2 `.claude/skills/10x-impl-review-ci/SKILL.md` istnieje
-- [x] 1.3 `.claude/skills/10x-impl-review-ci/` NIE jest ignorowany przez git
-- [x] 1.4 Reszta `.claude/skills/` nadal jest ignorowana przez git
-- [x] 1.5 `git status --porcelain` pokazuje wszystkie oczekiwane pliki jako gotowe do commitu
+- [x] 1.1 `review.yml` parsuje się jako poprawny YAML — b3c7727
+- [x] 1.2 `.claude/skills/10x-impl-review-ci/SKILL.md` istnieje — b3c7727
+- [x] 1.3 `.claude/skills/10x-impl-review-ci/` NIE jest ignorowany przez git — b3c7727
+- [x] 1.4 Reszta `.claude/skills/` nadal jest ignorowana przez git — b3c7727
+- [x] 1.5 `git status --porcelain` pokazuje wszystkie oczekiwane pliki jako gotowe do commitu — b3c7727
 
 #### Ręczne
 
-- [ ] 1.6 Diff `.gitignore` przejrzany — zakres wyjątku poprawny
-- [ ] 1.7 `review.yml` przejrzany — nazwy jobów/warunki/permissions zgodne z planem
-- [ ] 1.8 `tools/ai-review/review.ts` niezmieniony
+- [x] 1.6 Diff `.gitignore` przejrzany — zakres wyjątku poprawny — b3c7727
+- [x] 1.7 `review.yml` przejrzany — nazwy jobów/warunki/permissions zgodne z planem — b3c7727
+- [x] 1.8 `tools/ai-review/review.ts` niezmieniony — b3c7727
 
 ### Faza 2: Sekret, pierwszy żywy branch+PR, zebranie dowodów
 
