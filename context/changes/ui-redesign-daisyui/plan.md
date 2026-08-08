@@ -252,6 +252,13 @@ Restyling widoków auth, dashboard, mecze i drużyna — ekranów używanych naj
 - Logowanie/rejestracja z nowym checkboxem/linkiem
 - Wizualna spójność nowej palety (biały/niebieski/czerwony) na wszystkich powyższych ekranach
 
+### Dopiski z ręcznego przeglądu na żywo (poza pierwotnym zakresem, dodane w tej fazie)
+
+- **Krytyczny bug znaleziony i naprawiony**: `@tailwindcss/forms` (strategia domyślna `base`) nadpisywał wygląd zaznaczonego radio DaisyUI regułą `input:where([type=radio]):checked:focus` o wyższej specyficzności CSS niż `.radio-primary:checked` — radio stawał się przezroczysty/biały (niewidoczny) w momencie fokusu, czyli zaraz po kliknięciu. Naprawione przez `tailwind.config.js`: `forms({ strategy: 'class' })` zamiast `forms` — plugin przestaje dotykać nieoznaczonych natywnych kontrolek, DaisyUI przejmuje pełną kontrolę.
+- `dashboard.blade.php`: linki "Zobacz mecze"/"Zobacz statystyki" zastąpione dwoma kafelkami (`card` + ikona + opis) na życzenie użytkownika po przeglądzie na żywo.
+- `matches/index.blade.php`: "Edytuj" zmienione z linku tekstowego na `btn btn-sm btn-outline btn-primary`, dopasowane do sąsiadującego `btn-sm` na `x-danger-button` "Usuń" (oba przyciski, nie link + przycisk).
+- `components/application-logo.blade.php`: domyślne logo Laravel/Breeze zastąpione tekstowym wordmarkiem "WYJAZDOWICZ" (gradient primary→accent, `font-extrabold`, `drop-shadow-sm`); `layouts/app.blade.php` i `layouts/guest.blade.php` doładowują wagę `800` fontu Figtree.
+
 ---
 
 ## Faza 4: Statystyki (nice-to-have)
@@ -411,40 +418,40 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [x] 1.1 npm install przechodzi czysto po zmianach w package.json
-- [x] 1.2 npm run build (Node 20) kończy się sukcesem
-- [x] 1.3 Skompilowany CSS zawiera klasy DaisyUI
-- [x] 1.4 php artisan test przechodzi bez regresji
+- [x] 1.1 npm install przechodzi czysto po zmianach w package.json — 2963b63
+- [x] 1.2 npm run build (Node 20) kończy się sukcesem — 2963b63
+- [x] 1.3 Skompilowany CSS zawiera klasy DaisyUI — 2963b63
+- [x] 1.4 php artisan test przechodzi bez regresji — 2963b63
 - [x] 1.5 lessons.md — pominięte po weryfikacji, .nvmrc z 2026-08-01 już rozwiązuje pułapkę (patrz Faza 1 pkt 3)
 
 #### Ręczne
 
-- [x] 1.6 npm run dev startuje bez błędów konfiguracji
+- [x] 1.6 npm run dev startuje bez błędów konfiguracji — 2963b63
 
 ### Faza 2: Wspólne komponenty i layout
 
 #### Automatyczne
 
-- [x] 2.1 php artisan test przechodzi w całości
-- [x] 2.2 Build pod Node 20 przechodzi
+- [x] 2.1 php artisan test przechodzi w całości — 209f8d3
+- [x] 2.2 Build pod Node 20 przechodzi — 209f8d3
 
 #### Ręczne
 
-- [x] 2.3 Wizualna weryfikacja nawigacji, dropdownu, auth, modala usuwania konta (desktop + mobile)
+- [x] 2.3 Wizualna weryfikacja nawigacji, dropdownu, auth, modala usuwania konta (desktop + mobile) — 209f8d3
 
 ### Faza 3: Core CRUD widoki
 
 #### Automatyczne
 
-- [ ] 3.1 php artisan test przechodzi w całości
-- [ ] 3.2 Build pod Node 20 przechodzi
+- [x] 3.1 php artisan test przechodzi w całości
+- [x] 3.2 Build pod Node 20 przechodzi
 
 #### Ręczne
 
-- [ ] 3.3 Pełny CRUD meczu (desktop + mobile)
-- [ ] 3.4 Przepływ drużyny
-- [ ] 3.5 Logowanie/rejestracja
-- [ ] 3.6 Spójność wizualna nowej palety
+- [x] 3.3 Pełny CRUD meczu (desktop + mobile)
+- [x] 3.4 Przepływ drużyny
+- [x] 3.5 Logowanie/rejestracja
+- [x] 3.6 Spójność wizualna nowej palety
 
 ### Faza 4: Statystyki
 

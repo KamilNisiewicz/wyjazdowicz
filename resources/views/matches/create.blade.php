@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            <div class="card bg-base-100 shadow">
+                <div class="card-body max-w-xl">
                     <form method="post" action="{{ route('matches.search') }}" class="space-y-6">
                         @csrf
 
@@ -28,11 +28,11 @@
                             <x-input-label :value="__('Dom czy wyjazd')" />
                             <div class="mt-1 flex items-center gap-6">
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="venue" value="home" @checked(old('venue') === 'home') required>
+                                    <input type="radio" name="venue" value="home" class="radio radio-primary" @checked(old('venue') === 'home') required>
                                     {{ __('Dom') }}
                                 </label>
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="venue" value="away" @checked(old('venue') === 'away')>
+                                    <input type="radio" name="venue" value="away" class="radio radio-primary" @checked(old('venue') === 'away')>
                                     {{ __('Wyjazd') }}
                                 </label>
                             </div>

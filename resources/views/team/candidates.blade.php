@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            <div class="card bg-base-100 shadow">
+                <div class="card-body max-w-xl">
                     <header>
                         <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Potwierdź miasto') }}
@@ -27,7 +27,7 @@
                         <div class="space-y-3">
                             @foreach ($candidates as $index => $candidate)
                                 <label class="flex items-start gap-3">
-                                    <input type="radio" name="candidate" value="{{ $index }}" class="mt-1" required>
+                                    <input type="radio" name="candidate" value="{{ $index }}" class="radio radio-primary mt-1" required>
                                     <span>{{ $candidate['display_name'] }}</span>
                                     <input type="hidden" name="candidates[{{ $index }}][display_name]" value="{{ $candidate['display_name'] }}">
                                     <input type="hidden" name="candidates[{{ $index }}][lat]" value="{{ $candidate['lat'] }}">
@@ -39,7 +39,7 @@
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Zapisz drużynę') }}</x-primary-button>
-                            <a href="{{ route('team.edit') }}" class="text-sm text-gray-600 underline">{{ __('Wróć i popraw nazwę') }}</a>
+                            <a href="{{ route('team.edit') }}" class="link text-sm">{{ __('Wróć i popraw nazwę') }}</a>
                         </div>
                     </form>
                 </div>
