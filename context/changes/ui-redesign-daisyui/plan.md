@@ -486,12 +486,12 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [x] 6.1 npm run build (Node 20) przechodzi
-- [x] 6.2 php artisan test przechodzi w całości
-- [x] 6.3 Zaktualizowany gate deploy.yml przechodzi lokalnie
+- [x] 6.1 npm run build (Node 20) przechodzi — 380e902
+- [x] 6.2 php artisan test przechodzi w całości — 380e902
+- [x] 6.3 Zaktualizowany gate deploy.yml przechodzi lokalnie — 380e902
 
 #### Ręczne
 
-- [x] 6.4 Przegląd mobile-viewport (matches/stats/dashboard/landing)
-- [x] 6.5 Przegląd desktop
-- [x] 6.6 Merge feature-branch do master
+- [x] 6.4 Przegląd mobile-viewport (matches/stats/dashboard/landing) — 380e902
+- [x] 6.5 Przegląd desktop — 380e902
+- [ ] 6.6 Merge feature-branch do master
