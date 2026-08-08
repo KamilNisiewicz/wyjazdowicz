@@ -461,26 +461,26 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [x] 4.1 StatsTest.php przechodzi w całości po aktualizacji asercji
-- [x] 4.2 Build pod Node 20 przechodzi
+- [x] 4.1 StatsTest.php przechodzi w całości po aktualizacji asercji — d0bb8c6
+- [x] 4.2 Build pod Node 20 przechodzi — d0bb8c6
 
 #### Ręczne
 
-- [x] 4.3 Przełączanie tabów (desktop + mobile)
-- [x] 4.4 Wykres słupkowy z niezmienionymi kolorami
-- [x] 4.5 Karta "Pechowy kibic" widoczna dokładnie raz, gdy dotyczy
+- [x] 4.3 Przełączanie tabów (desktop + mobile) — d0bb8c6
+- [x] 4.4 Wykres słupkowy z niezmienionymi kolorami — d0bb8c6
+- [x] 4.5 Karta "Pechowy kibic" widoczna dokładnie raz, gdy dotyczy — d0bb8c6
 
 ### Faza 5: Strona główna
 
 #### Automatyczne
 
-- [ ] 5.1 ExampleTest.php przechodzi
-- [ ] 5.2 Build pod Node 20 przechodzi
+- [x] 5.1 ExampleTest.php przechodzi
+- [x] 5.2 Build pod Node 20 przechodzi
 
 #### Ręczne
 
-- [ ] 5.3 Wizualna weryfikacja landing page (desktop + mobile), CTA prowadzą do właściwych tras
-- [ ] 5.4 Potwierdzenie usunięcia starej treści startera Laravela
+- [x] 5.3 Wizualna weryfikacja landing page (desktop + mobile), CTA prowadzą do właściwych tras
+- [x] 5.4 Potwierdzenie usunięcia starej treści startera Laravela
 
 ### Faza 6: Regresja końcowa i merge
 
