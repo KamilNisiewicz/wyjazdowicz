@@ -425,12 +425,12 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [ ] 2.1 php artisan test przechodzi w całości
-- [ ] 2.2 Build pod Node 20 przechodzi
+- [x] 2.1 php artisan test przechodzi w całości
+- [x] 2.2 Build pod Node 20 przechodzi
 
 #### Ręczne
 
-- [ ] 2.3 Wizualna weryfikacja nawigacji, dropdownu, auth, modala usuwania konta (desktop + mobile)
+- [x] 2.3 Wizualna weryfikacja nawigacji, dropdownu, auth, modala usuwania konta (desktop + mobile)
 
 ### Faza 3: Core CRUD widoki
 
