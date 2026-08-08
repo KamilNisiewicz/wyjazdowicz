@@ -268,7 +268,7 @@ class StatsTest extends TestCase
         $response = $this->actingAs($user)->get('/stats');
 
         $response->assertOk();
-        $this->assertSame(1, substr_count($response->getContent(), 'border-red-200'));
+        $this->assertSame(1, substr_count($response->getContent(), 'border-error'));
     }
 
     public function test_another_users_home_and_away_matches_do_not_affect_my_tabs(): void
@@ -314,7 +314,7 @@ class StatsTest extends TestCase
         $before = $this->actingAs($user)->get('/stats');
         $before->assertOk();
         $this->assertSame(3, substr_count($before->getContent(), '>100%<'));
-        $before->assertDontSee('border-red-200');
+        $before->assertDontSee('border-error');
 
         $response = $this->actingAs($user)->patch("/matches/{$awayMatch->id}", [
             'opponent' => $awayMatch->opponent,
@@ -332,7 +332,7 @@ class StatsTest extends TestCase
         $this->assertSame(1, substr_count($after->getContent(), '>50%<'));
         $this->assertSame(1, substr_count($after->getContent(), '>100%<'));
         $this->assertSame(1, substr_count($after->getContent(), '>0%<'));
-        $this->assertSame(1, substr_count($after->getContent(), 'border-red-200'));
+        $this->assertSame(1, substr_count($after->getContent(), 'border-error'));
     }
 
     public function test_editing_played_on_reorders_streak_across_tabs(): void
@@ -427,7 +427,7 @@ class StatsTest extends TestCase
         $before = $this->actingAs($user)->get('/stats');
         $before->assertOk();
         $this->assertSame(2, substr_count($before->getContent(), '>33%<'));
-        $this->assertSame(2, substr_count($before->getContent(), 'border-red-200'));
+        $this->assertSame(2, substr_count($before->getContent(), 'border-error'));
 
         $response = $this->actingAs($user)->delete("/matches/{$loss1->id}");
         $response->assertRedirect(route('matches.index'));
@@ -436,7 +436,7 @@ class StatsTest extends TestCase
         $after = $this->actingAs($user)->get('/stats');
         $after->assertOk();
         $this->assertSame(2, substr_count($after->getContent(), '>50%<'));
-        $after->assertDontSee('border-red-200');
+        $after->assertDontSee('border-error');
     }
 
     public function test_streak_result_depends_entirely_on_caller_supplied_order(): void

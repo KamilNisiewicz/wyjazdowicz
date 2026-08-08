@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            <div class="card bg-base-100 shadow">
+                <div class="card-body max-w-xl">
                     <header>
                         <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Ulubiona drużyna') }}

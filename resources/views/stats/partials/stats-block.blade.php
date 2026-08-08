@@ -11,40 +11,40 @@
         ];
     @endphp
 
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-        <div class="border rounded-lg p-4 text-center">
-            <div class="text-2xl font-semibold text-gray-900">{{ $stats['win_percentage'] }}%</div>
-            <div class="text-sm text-gray-500 mt-1">{{ __('% zwycięstw') }}</div>
+    <div class="stats stats-vertical sm:stats-horizontal shadow w-full mb-8">
+        <div class="stat place-items-center">
+            <div class="stat-value text-primary">{{ $stats['win_percentage'] }}%</div>
+            <div class="stat-title">{{ __('% zwycięstw') }}</div>
         </div>
-        <div class="border rounded-lg p-4 text-center">
-            <div class="text-2xl font-semibold text-gray-900">{{ $stats['streak_length'] }}× {{ $streakLetter }}</div>
-            <div class="text-sm text-gray-500 mt-1">{{ __('Aktualna passa') }}</div>
+        <div class="stat place-items-center">
+            <div class="stat-value">{{ $stats['streak_length'] }}× {{ $streakLetter }}</div>
+            <div class="stat-title">{{ __('Aktualna passa') }}</div>
         </div>
         @if ($showDistance)
-            <div class="border rounded-lg p-4 text-center">
-                <div class="text-2xl font-semibold text-gray-900">{{ $stats['total_distance_km'] }} km</div>
-                <div class="text-sm text-gray-500 mt-1">{{ __('Łączny dystans') }}</div>
+            <div class="stat place-items-center">
+                <div class="stat-value">{{ $stats['total_distance_km'] }} km</div>
+                <div class="stat-title">{{ __('Łączny dystans') }}</div>
             </div>
         @endif
         @if ($stats['is_unlucky_fan'])
-            <div class="border border-red-200 rounded-lg p-4 text-center bg-red-50">
-                <div class="text-2xl font-semibold text-red-700">⚠</div>
-                <div class="text-sm text-red-700 mt-1">{{ __('Pechowy kibic') }}</div>
+            <div class="stat place-items-center border-error">
+                <div class="stat-value text-error">⚠</div>
+                <div class="stat-title text-error">{{ __('Pechowy kibic') }}</div>
             </div>
         @endif
     </div>
 
-    <div>
-        <h3 class="text-sm font-medium text-gray-500 mb-3">{{ __('Bilans') }}</h3>
-        <div class="flex items-end gap-6" style="height: 104px;">
+    <div class="mt-4">
+        <h3 class="text-base font-medium text-gray-700 mb-4">{{ __('Bilans') }}</h3>
+        <div class="flex items-end gap-8" style="height: 140px;">
             @foreach ($bars as $bar)
-                <div class="flex flex-col items-center gap-1" title="{{ $bar['label'] }}: {{ $bar['count'] }}">
-                    <span class="text-sm font-semibold text-gray-900">{{ $bar['count'] }}</span>
+                <div class="flex flex-col items-center gap-2" title="{{ $bar['label'] }}: {{ $bar['count'] }}">
+                    <span class="text-base font-semibold text-gray-900">{{ $bar['count'] }}</span>
                     <div
                         class="w-6 rounded-t"
                         style="height: {{ max((int) round($bar['count'] / $maxCount * 80), 4) }}px; background-color: {{ $bar['color'] }};"
                     ></div>
-                    <span class="text-xs text-gray-500">{{ $bar['label'] }}</span>
+                    <span class="text-sm text-gray-500">{{ $bar['label'] }}</span>
                 </div>
             @endforeach
         </div>

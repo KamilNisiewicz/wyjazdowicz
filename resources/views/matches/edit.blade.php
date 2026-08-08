@@ -7,11 +7,11 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            <div class="card bg-base-100 shadow">
+                <div class="card-body max-w-xl">
                     <p class="text-sm text-gray-500 mb-6">
-                        {{ $match->venue === 'home' ? __('Dom') : __('Wyjazd') }} · {{ $match->city }}
-                        <span class="block text-xs">{{ __('Dom/wyjazd i miejscowość nie można zmienić — usuń mecz i dodaj go od nowa, jeśli to pole jest błędne.') }}</span>
+                        <span class="badge badge-outline {{ $match->venue === 'home' ? 'badge-primary' : 'badge-accent' }}">{{ $match->venue === 'home' ? __('Dom') : __('Wyjazd') }}</span> · {{ $match->city }}
+                        <span class="block text-xs mt-1">{{ __('Dom/wyjazd i miejscowość nie można zmienić — usuń mecz i dodaj go od nowa, jeśli to pole jest błędne.') }}</span>
                     </p>
 
                     <form method="post" action="{{ route('matches.update', $match) }}" class="space-y-6">
@@ -45,7 +45,7 @@
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Zapisz zmiany') }}</x-primary-button>
-                            <a href="{{ route('matches.index') }}" class="text-sm text-gray-600 underline">{{ __('Anuluj') }}</a>
+                            <a href="{{ route('matches.index') }}" class="link text-sm">{{ __('Anuluj') }}</a>
                         </div>
                     </form>
                 </div>

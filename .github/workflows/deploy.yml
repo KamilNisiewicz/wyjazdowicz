@@ -70,7 +70,7 @@ jobs:
             exit 1
           fi
           MISSING=0
-          for cls in 'sm\:block' 'sm\:grid-cols-4' 'lg\:block' 'lg\:flex-row'; do
+          for cls in 'sm\:hidden' 'sm\:block' 'sm\:px-6' 'lg\:px-8'; do
             if ! grep -qF -- "$cls" "$CSS_FILE"; then
               echo "Missing compiled class: $cls" >&2
               MISSING=1
