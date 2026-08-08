@@ -1,7 +1,7 @@
 ---
 change_id: ui-redesign-daisyui
 title: UI redesign with DaisyUI
-status: implementing
+status: implemented
 created: 2026-08-08
 updated: 2026-08-08
 archived_at: null

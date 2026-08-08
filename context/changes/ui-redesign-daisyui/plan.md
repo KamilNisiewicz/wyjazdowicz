@@ -494,4 +494,4 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 - [x] 6.4 Przegląd mobile-viewport (matches/stats/dashboard/landing) — 380e902
 - [x] 6.5 Przegląd desktop — 380e902
-- [ ] 6.6 Merge feature-branch do master
+- [x] 6.6 Merge feature-branch do master — 427ed85
