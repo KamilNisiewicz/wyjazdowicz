@@ -306,6 +306,10 @@ Restyling `stats/index.blade.php` i `stats/partials/stats-block.blade.php`. Wykr
 - Wykres słupkowy renderuje się z niezmienionymi kolorami
 - Karta "Pechowy kibic" widoczna dokładnie raz, gdy dotyczy
 
+### Dopiski z ręcznego przeglądu na żywo (poza pierwotnym zakresem, dodane w tej fazie)
+
+- `stats-block.blade.php`: powiększone fonty w sekcji "Bilans" (nagłówek, liczba nad słupkiem, etykieta) i dodany odstęp (`mt-4`, `mb-4`) na życzenie użytkownika — było zbyt ciasno. Kolory słupków i logika liczenia wysokości — bez zmian.
+
 ---
 
 ## Faza 5: Strona główna (nice-to-have)
@@ -443,28 +447,28 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [x] 3.1 php artisan test przechodzi w całości
-- [x] 3.2 Build pod Node 20 przechodzi
+- [x] 3.1 php artisan test przechodzi w całości — 8947428
+- [x] 3.2 Build pod Node 20 przechodzi — 8947428
 
 #### Ręczne
 
-- [x] 3.3 Pełny CRUD meczu (desktop + mobile)
-- [x] 3.4 Przepływ drużyny
-- [x] 3.5 Logowanie/rejestracja
-- [x] 3.6 Spójność wizualna nowej palety
+- [x] 3.3 Pełny CRUD meczu (desktop + mobile) — 8947428
+- [x] 3.4 Przepływ drużyny — 8947428
+- [x] 3.5 Logowanie/rejestracja — 8947428
+- [x] 3.6 Spójność wizualna nowej palety — 8947428
 
 ### Faza 4: Statystyki
 
 #### Automatyczne
 
-- [ ] 4.1 StatsTest.php przechodzi w całości po aktualizacji asercji
-- [ ] 4.2 Build pod Node 20 przechodzi
+- [x] 4.1 StatsTest.php przechodzi w całości po aktualizacji asercji
+- [x] 4.2 Build pod Node 20 przechodzi
 
 #### Ręczne
 
-- [ ] 4.3 Przełączanie tabów (desktop + mobile)
-- [ ] 4.4 Wykres słupkowy z niezmienionymi kolorami
-- [ ] 4.5 Karta "Pechowy kibic" widoczna dokładnie raz, gdy dotyczy
+- [x] 4.3 Przełączanie tabów (desktop + mobile)
+- [x] 4.4 Wykres słupkowy z niezmienionymi kolorami
+- [x] 4.5 Karta "Pechowy kibic" widoczna dokładnie raz, gdy dotyczy
 
 ### Faza 5: Strona główna
 
