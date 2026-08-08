@@ -474,24 +474,24 @@ Brak migracji danych. Jeden long-lived feature branch przez wszystkie 6 faz, jed
 
 #### Automatyczne
 
-- [x] 5.1 ExampleTest.php przechodzi
-- [x] 5.2 Build pod Node 20 przechodzi
+- [x] 5.1 ExampleTest.php przechodzi — 8a428ce
+- [x] 5.2 Build pod Node 20 przechodzi — 8a428ce
 
 #### Ręczne
 
-- [x] 5.3 Wizualna weryfikacja landing page (desktop + mobile), CTA prowadzą do właściwych tras
-- [x] 5.4 Potwierdzenie usunięcia starej treści startera Laravela
+- [x] 5.3 Wizualna weryfikacja landing page (desktop + mobile), CTA prowadzą do właściwych tras — 8a428ce
+- [x] 5.4 Potwierdzenie usunięcia starej treści startera Laravela — 8a428ce
 
 ### Faza 6: Regresja końcowa i merge
 
 #### Automatyczne
 
-- [ ] 6.1 npm run build (Node 20) przechodzi
-- [ ] 6.2 php artisan test przechodzi w całości
-- [ ] 6.3 Zaktualizowany gate deploy.yml przechodzi lokalnie
+- [x] 6.1 npm run build (Node 20) przechodzi
+- [x] 6.2 php artisan test przechodzi w całości
+- [x] 6.3 Zaktualizowany gate deploy.yml przechodzi lokalnie
 
 #### Ręczne
 
-- [ ] 6.4 Przegląd mobile-viewport (matches/stats/dashboard/landing)
-- [ ] 6.5 Przegląd desktop
-- [ ] 6.6 Merge feature-branch do master
+- [x] 6.4 Przegląd mobile-viewport (matches/stats/dashboard/landing)
+- [x] 6.5 Przegląd desktop
+- [x] 6.6 Merge feature-branch do master
